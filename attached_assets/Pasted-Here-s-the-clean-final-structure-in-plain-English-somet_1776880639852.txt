@@ -1,0 +1,108 @@
+Here’s the clean, final structure in plain English—something you can hand directly to your agent.
+
+⸻
+
+Reminders Page (Top to Bottom)
+
+When the user taps Reminders, they see:
+	1.	Company Reminders
+Important notices from the business
+	2.	Shopping List
+Materials, supplies, things to buy
+	3.	Active Clients
+Current jobs
+	4.	Top 5 (Expandable)
+Priority tasks
+	5.	New Lists
+Custom lists the user creates
+	6.	What I Need From You (Provider → Client)
+This is where the contractor asks the client for things needed to move forward
+	7.	Ask a Pro (Client → Provider)
+This is where the client asks questions and gets answers
+
+⸻
+
+Two Types of Questions (Very Important)
+
+1. Client → Provider (Gamified)
+
+This is the Ask a Pro section.
+
+Flow:
+	•	Client asks a question
+	•	Provider answers it → gets 5 points
+	•	Client reviews the answer
+	•	Client taps: “This answered my question”
+	•	Provider gets 20 points
+	•	Then client chooses what to do next:
+
+Options:
+	•	Set up an appointment
+	•	Add to a list
+	•	I was just curious
+
+⸻
+
+2. Provider → Client (No Points)
+
+This is What I Need From You.
+
+Purpose:
+To show the client exactly what the contractor needs to continue the job.
+
+Examples:
+	•	Approve estimate
+	•	Choose material
+	•	Upload a photo
+	•	Confirm schedule
+
+Flow:
+	•	Provider asks for something
+	•	Client responds (reply, approve, upload, etc.)
+	•	Once handled, it’s marked complete
+
+No points involved.
+
+⸻
+
+Key Rule
+	•	Only client-asked questions give points
+	•	Provider-asked questions are strictly for workflow and clarity
+
+⸻
+
+Simple Status Logic
+
+Client → Provider:
+	•	Open
+	•	Answered (waiting on client)
+	•	Completed (client confirmed)
+
+Provider → Client:
+	•	Waiting on client
+	•	Completed
+
+⸻
+
+Simple UX Labels (Use These)
+	•	What I Need From You → provider asking client
+	•	Ask a Pro → client asking provider
+	•	Toggle text: “This answered my question”
+
+⸻
+
+The Idea in One Sentence
+
+This system combines:
+	•	reminders
+	•	task lists
+	•	and two-way communication
+
+so both sides always know:
+	•	what needs to be done
+	•	what’s been answered
+	•	and what the next step is
+
+⸻
+
+That’s the clean version—no fluff, no confusion, and easy to build.

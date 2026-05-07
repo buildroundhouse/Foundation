@@ -1,0 +1,66 @@
+Share Round House Button — My Notes
+What it is, in a sentence
+A button on your profile photo banner that lets you text someone an invite to Roundhouse, tracks whether they actually sign up, pays you 10 points when they do, and gives you a dashboard of everyone you've brought in.
+
+Where it lives
+Sits in the bottom-right corner of the profile photo/identity banner.
+Pill-shaped, translucent so it reads cleanly over any photo, with a soft shadow and the active mode's accent color on the text.
+A little rising-sun sticker overlaps the top-right of the pill: warm yellow center bleeding into red/orange rays, with a bold "10" and "points" stacked inside it. Static — no animation.
+Hidden on web, since sms: links aren't reliable in browsers. (Or shows a small "available on the mobile app" tooltip.)
+What happens when you tap it
+A small form opens with three fields and a Send button:
+
+Recipient first name (no need for full name)
+Cell phone number
+Mode you're inviting them as — picker has: Homeowner, Collaborator, Trade Pro, Trade Pro Teammate, Commercial Facility Pro, Commercial Facility Teammate
+Send is grayed out until all three are filled in (and the phone is dialable).
+
+What Send actually does
+Quietly creates a tracked invite on the server and gets back a unique signup link with an invite token baked in.
+Opens your phone's native SMS app with the recipient's number filled in and a message body pre-written.
+You review the message and hit send yourself — nothing is sent server-side, no SMS bills.
+The text message body
+The opener changes based on your active account, but every message ends with the same roles line and the signup link. If a placeholder is missing (no company name, no property address), that clause gets dropped gracefully — never send literal [brackets] to a real human, and show a small inline hint pointing to where to fill it in.
+
+Homeowner: "Hi, this is {first name} at {property address}. I'm inviting you to connect with me on Roundhouse — my home upkeep and beautification platform. Please join me."
+Trade Pro: "Hi, this is {first name} of {company name}. I'm building on Roundhouse — come connect with me and see what we're working on."
+Commercial Facility: "Hi, this is {first name} of {company name}. I'm inviting you to connect with me on Roundhouse — our commercial facility management platform."
+Collaborator: "Hi, this is {first name}. I'm inviting you to connect with me on Roundhouse — an app for building property profiles and managing improvement projects. Please join me as a collaborator."
+Trade Pro Teammate / Commercial Pro Teammate use the "{first name} of {company name}" opener and reuse their parent company's body.
+Every message ends with this on its own line:
+
+Roles: Trade Pro, Commercial Trade Pro, Homeowner, Collaborator, Trade Pro Teammate, Commercial Pro Teammate
+…and then the signup link on the next line.
+
+Attribution — the part that makes it real
+A new app_invites table holds: inviter user id, recipient name, normalized phone, requested mode, the invite token, sent timestamp, status (sent / signed_up / expired / cancelled), and once accepted, the new user's id, the mode they actually signed up as, and a signed-up timestamp.
+The signup link carries the token. When a brand-new user lands via that link and finishes intake, the backend resolves the token, attaches the new user, flips status to signed_up, and records the actual mode they joined as (which may differ from what was requested).
+On a confirmed signup, the backend does two more things:
+Sends you a notification: "{their first name} just joined Round House as a {actual mode}." — through the existing notification system, respecting your notification preferences.
+Awards you 10 points through the existing rewards/points ledger. The invite id is the source ref so a single signup can never double-award.
+Resending the SMS for the same invite reuses the same record and token — no duplicates.
+Anti-abuse: tokens are single-use, expire after about 60 days.
+"People I've invited" view
+A new screen reachable from your Profile (e.g., a row under the share pill, or by tapping the points sticker), showing:
+
+A list of every invite — recipient first name, masked phone, requested mode, status pill (Sent / Signed up / Expired), date sent, and once accepted, the actual mode they joined as plus a "View profile" affordance if they're connectable.
+A summary header with totals: invites sent, signups completed, conversion rate, and total points earned from sharing.
+A light "how they're doing" signal per signed-up invitee — last-active date or current rank/tier — but only what the existing system already exposes. No new tracking machinery.
+Things explicitly out of scope (v1)
+Sending the SMS server-side via a paid provider.
+Email or WhatsApp sharing.
+Native contact picker (typing the name and number is fine).
+New per-invitee performance metrics beyond what we already expose elsewhere.
+A separate flow for inviting someone who's already on Roundhouse — this is for people not yet on the platform.
+Build steps in rough order
+The pill + sticker on the identity banner. Static rising-sun graphic, mode-accent text, hidden on web.
+The share form (modal or screen): three inputs, validation, mode picker covering all the sign-up roles plus Collaborator, the inline hint when company name or property address is missing.
+Backend table + endpoints: app_invites schema, plus endpoints to create an invite, look one up by token, list mine, and mark as accepted.
+Wire Send: form calls the create-invite endpoint, gets the tokenized link back, opens SMS with the composed body.
+Intake hook-in: when a new user finishes intake via an invite-token link, mark the invite signed_up, attach the new user id and actual mode, award 10 points to the inviter (idempotent on invite id), notify the inviter.
+"People I've invited" view: list, status pills, summary totals, lightweight activity signal per invitee.
+Resend: on Sent (not yet accepted) invites, reopen the SMS app for the same token without creating a new record.
+Files I'd be touching
+Mobile: app/(tabs)/profile.tsx, components/IdentityHero.tsx, lib/profile.tsx, components/EditProfileModal.tsx, components/HomeBaseEditorModal.tsx, app/invites.tsx, lib/propertyShare.ts
+API: routes/users.ts, routes/invites.ts, routes/rewards.ts, lib/rewards.ts, routes/notifications.ts, lib/notificationPrefs.ts, routes/index.ts
+Plus a new app_invites table in the sh

@@ -1,0 +1,108 @@
+Do not build anything new or parallel. Align this exactly with the existing entity cutover task (#663) and reuse the same primitives already defined.
+
+Single source of truth:
+	•	Relationships = entity_members
+	•	Messaging = entity-scoped only
+	•	Notifications = notifications (user-level)
+	•	Inbox = entity threads (derived from messages scoped by entityId)
+
+⸻
+
+Invites (reuse, don’t duplicate):
+	•	Invites are just entity_members rows with status='invited'
+	•	Do NOT create a separate “invites system”
+	•	The Invites screen is simply:
+	•	SELECT entity_members WHERE user = me AND status='invited'
+
+⸻
+
+Notifications (already defined behavior):
+	•	Use existing notifications table (user-level)
+	•	Trigger on invite creation
+	•	Format:
+	•	Primary: person name + profile photo
+	•	Secondary: entity name + image
+	•	Do NOT create a new notification mechanism
+
+Interaction:
+	•	Tap notification → open invite modal
+	•	Modal reads directly from the same entity_members row
+	•	Accept/Decline updates that row
+	•	If dismissed, notification persists and reopens same modal later
+
+No duplicate state. No second storage.
+
+⸻
+
+Inbox (must match entity messaging spec in #663):
+	•	Inbox = list of entities, not people
+	•	Derived from messages grouped by entityId
+	•	Already required in task:
+	•	“one row per entity the user participates in”
+
+Do NOT:
+	•	Add invites into inbox
+	•	Add notification logic into inbox
+	•	Create a second thread system
+
+⸻
+
+Messaging (already locked):
+	•	Every message requires entityId
+	•	No avatar-to-avatar messaging
+	•	No fallback threads
+	•	No composer outside an entity
+
+This is already defined in Step 4 of #663 — do not reimplement differently.
+
+⸻
+
+Critical alignment rules (to prevent double build):
+	1.	One invite object
+	•	entity_members row
+	•	NOT:
+	•	separate invites table
+	•	separate invite state
+	•	duplicate UI data source
+	2.	One notification system
+	•	notifications table only
+	•	Modal pulls from entity_members
+	•	No “invite cache” or secondary store
+	3.	One messaging system
+	•	messages.entityId
+	•	Inbox = grouped by entity
+	•	No DM system, no hybrid
+	4.	One relationship model
+	•	user_connections is dead
+	•	Zero reads, zero writes
+	•	If any code still references it → that is a bug, not a fallback
+
+⸻
+
+UI separation (do not blur):
+	•	Bell (notifications):
+	•	Alerts
+	•	Invites
+	•	Requires decisions (accept/decline)
+	•	Inbox:
+	•	Conversations only
+	•	Entity threads only
+	•	Entities:
+	•	Where work + messaging actually happens
+
+⸻
+
+Sanity check before shipping:
+
+If any of these exist, it’s wrong:
+	•	A second invite data structure
+	•	A message without entityId
+	•	A way to message a person directly
+	•	An invite stored anywhere except entity_members
+	•	Inbox showing anything that isn’t tied to an entity
+
+Everything must collapse into:
+
+entity_members (relationships) + messages(entityId) (communication) + notifications (alerts)
+
+No parallel systems. No legacy fallback.

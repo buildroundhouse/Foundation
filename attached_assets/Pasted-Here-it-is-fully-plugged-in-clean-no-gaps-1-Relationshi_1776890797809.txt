@@ -1,0 +1,92 @@
+Here it is, fully plugged in—clean, no gaps:
+
+⸻
+
+1. Relationship Flow (core system)
+
+Request sent → system message → accept → linked → messaging opens → assign to property → work begins
+	•	Before acceptance: no messaging, no access
+	•	After acceptance: connected, messaging only
+	•	After assignment: can see and work on that property
+
+⸻
+
+2. Invite Messages (role-based, consistent)
+	•	Homeowner → Trade Pro
+“Hi, this is Sheila. Let’s team up to work on my home.”
+	•	Trade Pro → Homeowner
+“Hi, this is [Name]. Let’s team up to work on and improve your home.”
+	•	Facility → Trade Pro / Vendor
+“Hi, this is [Company]. Let’s team up to maintain our properties.”
+	•	Trade Pro → Service Provider
+“Hi, this is [Name]. Let’s team up—I could use your services on my jobs.”
+	•	Service Provider → Trade Pro
+“Hi, this is [Name]. Let’s team up—I provide services for projects like yours.”
+	•	Collaborator
+“Hi, let’s team up and follow the work.”
+
+⸻
+
+3. Access Model (simple rules)
+	•	Accept = linked
+	•	Assign = access
+	•	No assignment = see nothing
+
+⸻
+
+4. Permissions by Role
+
+Trade Pro (on client properties)
+	•	Full: create work orders, notes, photos
+
+Service Provider
+	•	Only their work
+	•	Can: create work orders + photos
+	•	Can: add notes inside their work only
+	•	Cannot: see or edit anything else
+
+Collaborator
+	•	Read only
+	•	Can leave private notes (owner-facing)
+	•	Cannot do work
+
+Teammates (internal)
+	•	Full access based on role
+
+⸻
+
+5. Structure of Relationships
+	•	Homeowner / Facility = owns the property context
+	•	Trade Pro = runs and organizes the work
+	•	Service Provider = gets pulled in for specific tasks
+	•	Collaborator = observes
+
+⸻
+
+6. Control Panel Mental Model
+	•	You see:
+	•	Your work
+	•	Your people (team)
+	•	Your properties
+	•	Your messages
+
+Each role just emphasizes a different one.
+
+⸻
+
+7. Guardrails (important edges)
+	•	One pending request at a time
+	•	Must accept to message
+	•	Can remove/unlink anytime
+	•	Removing = no future access, past work stays
+	•	Providers never get automatic access to all jobs
+
+⸻
+
+Final Story (one line)
+
+People request to team up → they accept → they can talk → they get assigned → they do their part of the work.
+
+⸻
+
+That’s now consistent top to bottom—language, permissions, and flow all aligned.

@@ -1,0 +1,403 @@
+ROUND HOUSE — INVESTOR DECK
+
+⸻
+
+1 — Title
+
+Round House
+
+Logs work. Tracks performance. Builds reputation.
+
+The system of record for physical work.
+
+⸻
+
+2 — Behavior
+
+A social layer that makes documenting work natural.
+
+• Log work in real time
+• See activity
+• Build reputation through action
+• See when work has been viewed
+
+The system creates a feedback loop through visibility and progress.
+
+The system of record is the product.
+The social layer is what makes it work.
+
+⸻
+
+3 — Problem
+
+Work is fragmented.
+
+Photos, messages, invoices, and updates live in different places.
+There is no single record of what was done.
+
+⸻
+
+4 — Solution
+
+Round House creates a time-stamped record
+for every property and project.
+
+⸻
+
+5 — Product
+
+• Property-based profiles
+• Photo + note logging
+• Time-stamped timeline
+• Simple lists (tasks, items, tracking)
+• Mobile-first
+
+⸻
+
+6 — Product Philosophy
+
+Round House is built to be a useful tool first.
+
+It solves a real problem:
+tracking, understanding, and maintaining work over time.
+
+The product is designed for daily use in the real world.
+
+Growth comes from utility.
+Engagement comes from usefulness.
+
+⸻
+
+7 — Real-World Use Cases
+
+Home Management
+
+• Centralized property knowledge base
+• Service provider roster and history
+• Work visibility and progress tracking
+• Handoff continuity between providers
+• Multi-property management
+
+⸻
+
+Commercial / Multi-Location
+
+• Cross-location visibility
+• Work orders with full context (history, photos, prior work)
+• Team onboarding with full site context
+• Media-rich documentation tied to properties
+
+⸻
+
+Platform Philosophy
+
+• Work is visible and attributed
+• The record stays with the property
+• Replaces fragmented communication with a single system
+
+⸻
+
+8 — MVP — Initial Release
+
+Focused on core behavior:
+• Property / project profiles
+• Photo + note logging
+• Time-stamped timeline
+• Simple lists
+• Basic sharing (Pro unlocks a property)
+• Light scoring tied to activity
+
+⸻
+
+Light scoring includes:
+• Logging activity builds score
+• Real-time logging scores higher
+• Consistency is reflected over time
+• Visibility confirms activity (work seen)
+
+⸻
+
+Not in MVP:
+• Full invoicing
+• Work order systems
+• Advanced business tools
+• Advertising network
+• Complex permissions
+• Advanced scoring systems
+
+⸻
+
+MVP proves consistent usage before expanding
+
+⸻
+
+9 — Customers (Who Pays)
+
+Pro Tradesperson
+Runs jobs and documents work
+
+Pro Homeowner
+Manages property and coordination
+
+Pro Commercial
+Manages multiple locations and teams
+
+⸻
+
+10 — Business Model
+
+The platform starts free.
+
+Users can:
+• Create unlimited property profiles
+• Log work
+• Build a private record
+
+Free is designed for capture and personal use.
+
+Pro unlocks coordination.
+
+⸻
+
+11 — Pro Access — Per Property
+
+Pro is applied at the property level.
+
+Each property unlocks coordination, visibility, and tools.
+
+⸻
+
+Pro Home — $30/month per property
+• Shared timeline with providers
+• Coordination across service providers
+• Full property record
+
+⸻
+
+Pro Commercial — $100/month per location
+• Multi-user coordination
+• Work orders
+• Standardized records
+
+⸻
+
+Each property operates independently.
+Pro is tied to the property, not the user.
+
+⸻
+
+12 — Payment Logic
+
+Free → private capture across unlimited properties
+
+Pro → shared coordination on a property
+
+Upgrade happens when a property requires:
+• sharing
+• collaboration
+• visibility across people
+
+Sharing is the paid action.
+
+⸻
+
+13 — Account Model
+
+Users always retain:
+• All properties
+• All work history
+• All records
+
+Free:
+• Unlimited properties
+• Logging and documentation
+• Private use
+
+Limits:
+• No shared posting
+• No multi-user collaboration
+• No coordination tools
+
+⸻
+
+Pro unlocks:
+• Ability to share a property
+• Ability for others to post and contribute
+• Coordination across people
+
+⸻
+
+No ads.
+The platform remains clean and focused on work.
+
+⸻
+
+14 — Why This Wins
+
+• Built for field use
+• Simple enough for daily use
+• Tied to the property
+
+⸻
+
+15 — Positioning
+
+Between:
+• Buildertrend
+• ServiceTitan
+• Houzz Pro
+• Notion
+• Monday
+
+Simpler
+Mobile-first
+Visual
+
+⸻
+
+16 — What Makes It Work
+
+• Timeline-based memory
+• Property-level record
+• Shared provider + client system
+
+⸻
+
+17 — Discovery Layer
+
+• Post work, ideas, and stories
+• Stack and build on others’ work
+• Discover solutions
+• Find local professionals
+
+Work becomes discoverable.
+Discovery creates demand.
+
+⸻
+
+18 — Behavior Reinforcement
+
+• Logging builds score
+• Real-time logging scores higher
+• Consistency is visible
+• Visibility confirms accountability (work is seen, even without response)
+
+This creates continuous engagement without adding friction.
+
+⸻
+
+19 — Growth
+
+Every project creates content
+
+Content becomes proof
+
+Proof brings more work
+
+⸻
+
+20 — Network Access
+
+No ads in workflow
+
+Brands cannot buy visibility
+
+Access comes through local professionals
+
+⸻
+
+21 — Distribution
+
+Brands reach customers through the people doing the work
+
+⸻
+
+22 — Revenue Expansion
+
+• Brands pay to access the network
+• Professionals participate and earn
+• Platform takes a share
+
+⸻
+
+23 — Market
+
+Construction
+Home services
+Property management
+Maintenance
+
+⸻
+
+24 — Why Now
+
+We’ve reached a scale where work can no longer be managed informally.
+
+More properties.
+More moving parts.
+More people involved.
+
+But the systems haven’t caught up.
+
+Work is still being tracked through texts, memory, and scattered tools.
+
+At this level, things break:
+• missed details
+• lost history
+• no accountability
+
+Round House exists because this is no longer manageable without a system.
+
+⸻
+
+25 — Entry Point
+
+Everyone starts with one free property
+
+Expansion happens when:
+• more properties are added
+• coordination is required
+
+⸻
+
+26 — Pricing Logic
+
+Pricing is tied to the asset
+
+Each property unlocks independently
+
+Free supports unlimited private properties
+
+Pro is required when a property becomes shared
+
+⸻
+
+27 — The Ask
+
+Raising capital
+
+To:
+• Build MVP
+• Launch
+• Validate usage and retention
+
+⸻
+
+28 — Vision
+
+The system of record for physical work
+
+⸻
+
+✅ This is your final, complete, investor-ready deck
+	•	scoring included (correctly scoped)
+	•	behavior preserved
+	•	utility-first intact
+	•	monetization clean
+	•	no dilution
+
+⸻
+
+Next step is not content.
+
+👉 It’s design + delivery (Gamma / Canva / live pitch)

@@ -1,0 +1,220 @@
+Core Behavior
+
+The system has People and Entities.
+
+People
+	•	Real users with personal accounts
+	•	They may have roles/avatars
+	•	They act inside entities
+
+Entities
+	•	Residential properties
+	•	Commercial properties / facilities
+	•	Businesses / companies
+
+Entities are the main containers.
+They hold timelines, messages, tasks, photos, notes, clients, participants, and history.
+
+⸻
+
+Main Rule
+
+People do not connect directly to people.
+People connect through entities.
+
+All meaningful activity must belong to an entity:
+	•	message
+	•	photo
+	•	task
+	•	note
+	•	estimate
+	•	receipt
+	•	timeline update
+	•	approval
+	•	calendar item
+
+Every activity record should include an entityId or propertyId.
+
+⸻
+
+Properties and Companies
+
+A property and a company behave similarly.
+
+Both are entities.
+
+A company has:
+	•	team members
+	•	internal timeline
+	•	company calendar
+	•	internal notes/tasks
+	•	client/property list
+
+A property has:
+	•	participants
+	•	job timeline
+	•	property notes/tasks/photos
+	•	client/contact info
+	•	history of work
+
+So:
+
+Company = business workspace
+Property = job/home/facility workspace
+
+⸻
+
+User Flow
+
+When a user signs in, they land in the last active entity, usually their company.
+
+Example:
+
+Sign in → JD Design Studios
+
+Inside that company, they see:
+	•	company timeline
+	•	team activity
+	•	calendar
+	•	clients
+	•	properties/jobs
+
+Then they open a property:
+
+JD Design Studios → Sarah’s Dallas Home
+
+Now all work happens inside that property.
+
+⸻
+
+Client List
+
+Keep a Clients view because that matches how trade pros think.
+
+But internally, clients are not the source of truth.
+
+Clients are an index into properties.
+
+Example:
+
+Client: Sarah Johnson
+opens
+Sarah’s Dallas Home
+
+The user can search by client name, see address, call/text, and navigate with GPS.
+
+But the actual record is still the property.
+
+⸻
+
+Contractor-Created Properties
+
+A trade pro can create a property even if the client is not on the app.
+
+During intake, ask:
+
+What is your relationship to this property?
+	•	Owner
+	•	Manager
+	•	Contractor / Provider
+
+If they choose Contractor / Provider, ask for:
+	•	client name
+	•	client phone/email
+	•	property address
+
+Then create:
+	•	a property record
+	•	a client contact attached to it
+	•	a client list entry that opens that property
+
+The trade pro controls the property record for now.
+
+Later, if the client joins, the property can be transferred to the client while preserving the history.
+
+⸻
+
+Ownership Rule
+
+A property always has a controller.
+
+That controller may be:
+	•	homeowner
+	•	renter
+	•	facility manager
+	•	trade pro temporarily
+	•	business/company
+
+But the controller can change later.
+
+⸻
+
+Upload Ownership
+
+The property is the place of record, but the creator owns their upload.
+
+If a teammate uploads a photo to a client property:
+
+One record is created with:
+	•	propertyId
+	•	companyId
+	•	createdByUserId / createdByAvatarId
+	•	assetOwnerId
+
+That photo appears in:
+	•	property timeline
+	•	company timeline
+	•	personal/avatar timeline
+
+But it is stored once.
+
+If the homeowner leaves or removes access, the creator should not lose their own photos or portfolio history.
+
+⸻
+
+Search Behavior
+
+People Search
+
+People search finds people and shows their roles/avatars as context.
+
+But users do not connect to avatars.
+
+Actions should be:
+	•	Invite this person to an entity
+	•	Request access to an entity they manage
+
+Entity Search
+
+Entity search finds:
+	•	homes
+	•	facilities
+	•	companies
+
+Actions should be:
+	•	Request access
+	•	Enter, if already approved
+	•	Invite entity to another entity, where applicable
+
+A business can appear in search by itself.
+It does not need to be searched through its admin.
+
+⸻
+
+Connection Language
+
+Remove:
+	•	Connect to user
+	•	Message avatar
+
+Use:
+	•	Invite to entity
+	•	Request access
+	•	Add participant
+	•	Enter workspace/property
+
+⸻
+
+Agent Summary
+
+Refactor the system so properties, facilities, and companies are all entities. People/avatars do not connect directly to each other. People join entities with roles and permissions. All messages, tasks, photos, notes, calendar items, and timeline activity happen inside an entity. Clients remain as a user-friendly view, but they map back to properties. Contractor-created properties are allowed and can later be transferred to the true owner without losing history.

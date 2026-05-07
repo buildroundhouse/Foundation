@@ -1,0 +1,170 @@
+IDENTITY + HEADER
+	•	Remove “Work” completely
+	•	This page is not a section — it is the Trade Pro business profile
+
+Header should show:
+	•	Company name (required)
+	•	Personal name + role (secondary)
+
+Example:
+DMT Design Build
+Daniel Tierney · Trade Pro
+
+⸻
+
+TRADE PRO RULE
+	•	Company name is mandatory during intake
+	•	This page represents a business, not just a person
+
+⸻
+
+PROFILE SECTION (replaces “What you told us”)
+
+Rename:
+→ Profile
+
+Purpose:
+→ Business / identity card
+
+Collapsed view shows:
+	•	Trade
+	•	Experience
+	•	Service area
+	•	One contact line (if available)
+
+On tap:
+
+→ opens full profile
+
+⸻
+
+FULL PROFILE VIEW
+
+Includes:
+
+Header
+	•	Profile photo
+	•	Company name
+	•	Personal name
+	•	Username
+
+Work
+	•	Trade
+	•	Experience
+	•	Service area
+
+Contact (optional)
+	•	Office phone
+	•	Cell phone
+	•	Website
+	•	Instagram
+
+⸻
+
+CONTACT FIELDS (INTAKE UPDATE)
+
+Add:
+	•	Website
+	•	Office phone
+	•	Cell phone
+	•	Instagram
+
+Rules:
+	•	All optional
+	•	Editable later
+	•	If empty → do not display
+
+⸻
+
+EMPTY FIELD RULE
+	•	Do not show empty rows
+	•	Do not show placeholders (“—”)
+	•	Hide entire sections if no data exists
+
+⸻
+
+EDIT BUTTON
+	•	Add Edit button (top right)
+	•	Opens full editable profile form
+	•	Allows updating all fields
+
+⸻
+
+SEARCH (CRITICAL FEATURE)
+	•	Add global user search
+	•	Search by:
+	•	Username
+	•	Full name
+	•	Display name
+	•	Results show:
+	•	Photo
+	•	Name
+	•	@username
+	•	Role (small, gray)
+
+⸻
+
+SCORE → BADGE CHANGE
+	•	Remove “Score” tile
+	•	Replace with Badge (Silver / Gold / etc.)
+
+Placement:
+	•	Next to or under name in header
+
+Behavior:
+	•	Tap badge → opens performance details:
+	•	On-time rate
+	•	Completion rate
+	•	Logging consistency
+	•	Ratings
+
+⸻
+
+COLLABORATOR MODEL
+	•	Collaborators are independent accounts
+	•	They are not owned by a company
+
+If removed:
+	•	They keep:
+	•	account
+	•	personal timeline
+	•	They lose:
+	•	access to that team
+
+⸻
+
+CORE PRINCIPLE
+
+→ People persist
+→ Relationships change
+
+⸻
+
+VOICE + LANGUAGE RULE
+	•	No jargon:
+	•	no “engine”
+	•	no “platform”
+	•	no system language
+	•	No declarative identity statements:
+	•	no “I run my day here”
+	•	Use:
+	•	neutral
+	•	descriptive
+	•	real-world language
+
+⸻
+
+FINAL STRUCTURE SHIFT
+
+This page is:
+
+→ Business identity + operating presence
+
+Not:
+	•	a tab
+	•	not a section
+	•	not “Work”
+
+⸻
+
+These are locked and aligned with everything you’ve been pushing toward.

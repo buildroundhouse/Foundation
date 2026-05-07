@@ -1,0 +1,28 @@
+Here's what I think the experience should be, in plain English:
+
+Today's gap (as I understand it):
+When you're operating one of your admin/operator skins (the ones used to run a company, a facility, or a game-room — not your everyday personal skin), other people can't find that skin in Finder. So if someone tries to team up with you in your operator role, they hit a wall.
+
+What it should look like:
+
+In Finder (the People search), an admin skin shows up like any other skin.
+Type the company name, the operator's handle, or the role title — the admin skin appears as its own row.
+The row uses the operator skin's public face: company name, role/title, and skin avatar — never the owner's personal name (same privacy rule as every other skin).
+A small badge — something like "Admin" or the operator role label (e.g. "Game Room Admin", "Facility Admin") — sits next to the name so the searcher knows what they're looking at.
+Tapping the row opens the same Public Profile sheet as any other skin.
+Same Connect button, same chooser (Client / Core / Collaborator), same auto-letter pipeline we just fixed.
+The auto-letter wording reflects the admin context (e.g. "Hi, this is [first name] from [company]. Let's team up to coordinate the game room.") — using the templates that already exist.
+The admin skin behaves like a normal recipient.
+It receives the team-up request on its /invites screen.
+On accept, the chat opens with the system "now connected" anchor + the auto letter, exactly like every other skin.
+The admin can switch to that skin via the top-bar avatar switcher to respond, just like any of their other skins.
+Privacy + scope rules stay the same.
+The owner's personal name never leaks; only the admin skin's public-facing fields are searchable.
+Archived/disabled admin skins stay out of results (current archivedAt filter).
+Demo personas (the practice ones an admin spins up to test the app) should remain hidden from public Finder — they aren't real skins. Only "live" admin skins surface.
+Nothing else changes.
+No new screens, no new search filters, no new chooser options.
+The only difference is that the admin-owned skins stop being invisible in the existing People search.
+So the net effect: from a searcher's perspective, an admin skin is just another skin. From the admin's perspective, their operator skin can finally be reached the same way their personal one can. Everything downstream (Connect → letter → accept → chat) reuses the pipeline that already works.
+
+Does that match what you have in mind, or is "admin skin" referring to something more specific (e.g. only Game Room admins, or only the demo personas)?

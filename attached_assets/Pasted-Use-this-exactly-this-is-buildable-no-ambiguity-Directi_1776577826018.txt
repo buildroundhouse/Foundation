@@ -1,0 +1,182 @@
+Use this exactly—this is buildable, no ambiguity:
+
+⸻
+
+Directive — Editable Profile (inline + full edit)
+
+Goal
+
+User can edit their profile directly from the profile screen without going to settings.
+
+⸻
+
+1. Inline Editing (primary behavior)
+
+Make these fields tappable:
+	•	Company name
+	•	Personal name
+	•	Trade
+	•	Experience
+	•	Service area
+	•	Website
+	•	Office phone
+	•	Cell phone
+	•	Instagram
+
+⸻
+
+On tap behavior
+
+When user taps a field:
+
+→ Switch that field into edit mode
+
+Examples:
+
+Text fields (name, website):
+	•	Replace text with input field
+	•	Show keyboard
+	•	Autofocus
+
+Phone fields:
+	•	Use phone keypad
+
+Trade / experience:
+	•	Open selector (modal or dropdown)
+
+⸻
+
+Save behavior
+
+Choose one (be consistent):
+
+Option A (recommended):
+→ Auto-save on blur (when user taps away)
+
+Option B:
+→ Small checkmark icon to confirm
+
+⸻
+
+Cancel behavior
+	•	Tap outside → cancel OR save (depending on rule)
+	•	ESC / back → revert changes
+
+⸻
+
+2. Full Edit Mode (secondary)
+
+Add button
+
+Top right:
+→ Edit
+
+⸻
+
+On tap
+
+Open:
+→ Full profile edit screen
+
+⸻
+
+Full edit screen includes
+
+All fields grouped:
+
+Business
+	•	Company name
+
+Identity
+	•	Personal name
+
+Work
+	•	Trade
+	•	Experience
+	•	Service area
+
+Contact
+	•	Website
+	•	Office phone
+	•	Cell phone
+	•	Instagram
+
+⸻
+
+Save flow
+	•	“Save” button (top right)
+	•	“Cancel” button (top left)
+
+⸻
+
+3. Empty field behavior (critical)
+	•	If field = empty → do NOT render on profile
+	•	No placeholders
+	•	No “—”
+
+⸻
+
+4. Add-field affordance (important)
+
+If field is missing:
+
+Show:
+→ “+ Add website”
+→ “+ Add phone”
+
+Tap → opens inline edit
+
+⸻
+
+5. Visual cues
+	•	Editable fields should have:
+	•	subtle hover/tap state
+	•	maybe pencil icon (optional)
+	•	When editing:
+	•	highlight field
+	•	show active state
+
+⸻
+
+6. Data handling
+	•	Update user profile table immediately
+	•	Persist changes via API:
+	•	PATCH /user/profile
+
+Fields:
+	•	company_name
+	•	name
+	•	trade
+	•	experience
+	•	service_area
+	•	website
+	•	office_phone
+	•	cell_phone
+	•	instagram
+
+⸻
+
+7. Mobile behavior
+	•	Scroll adjusts when keyboard opens
+	•	Inputs not hidden behind keyboard
+	•	Use native input types:
+	•	email
+	•	phone
+	•	text
+
+⸻
+
+8. Do NOT
+	•	Do not require separate settings page
+	•	Do not force full edit for small changes
+	•	Do not show empty fields
+
+⸻
+
+One-line summary
+
+“Make all profile fields editable inline (tap-to-edit) with optional full edit screen. Hide empty fields and allow adding missing fields directly from the profile.”
+
+⸻
+
+This will make the profile feel like a real, living identity—not a static screen.

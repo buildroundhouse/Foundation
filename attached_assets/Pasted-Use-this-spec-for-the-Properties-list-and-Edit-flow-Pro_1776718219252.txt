@@ -1,0 +1,43 @@
+Use this spec for the Properties list and Edit flow.
+
+Properties list card
+	•	Do not show a circular profile image on the property card.
+	•	Show a small vertical thumbnail of the banner image on the left side of the card instead.
+	•	That thumbnail is the property’s visual identifier in list mode.
+	•	When the property is opened, the image displays as the full banner/header.
+
+Image behavior
+	•	The banner image is not persisting after Save.
+	•	The same issue is happening on the Edit Property screen.
+	•	This needs to be fixed the same way the profile image persistence issue was fixed: the selected image must survive save, refresh, and reload, and the saved banner URL/path must be read back correctly everywhere the property is rendered.
+
+What should display on each property card
+	•	Property name
+	•	Address
+	•	Ownership/member info
+	•	Property type: Commercial or Residential
+	•	Small left-side banner thumbnail
+
+Expected logic
+	•	If a banner image exists, show its cropped thumbnail on the left of the card.
+	•	If no banner image exists, show a clean placeholder block.
+	•	On detail view, use that same saved image as the full banner.
+	•	On edit view, the currently saved banner must preload correctly.
+	•	After changing the banner and tapping Save, the updated banner must immediately appear in:
+	•	Properties list
+	•	Property detail header
+	•	Edit screen when reopened
+
+Recommended layout
+	•	Left: narrow rounded rectangle thumbnail from banner
+	•	Right: text stack with name, address, and Commercial / Residential
+
+Here’s clean wording you can paste to a developer:
+
+On the Properties list, there should not be a separate profile picture. In this view, the property should use a small cropped version of the banner image on the left side of the card as its visual identifier. When the property is opened, that same image should display as the full banner/header.
+
+Right now, the banner image is not persisting after Save, and the Edit Property screen has the same issue. The saved banner needs to preload correctly on edit, persist after saving, and display consistently in list view and detail view.
+
+Also, from the Properties list, I need to see whether the property is Commercial or Residential without opening it.
+
+If you want, I can turn this into a tighter bug ticket with acceptance criteria.

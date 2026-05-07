@@ -1,0 +1,234 @@
+Here’s the complete, merged spec — what they asked for + your message system, clean and unified:
+
+⸻
+
+Share Round House — Final Spec (Merged)
+
+What this closes
+
+This completes the Share Round feature end-to-end by:
+	•	Fixing visual binding (accent color)
+	•	Making the invite dashboard reachable
+	•	Adding lightweight status signals
+	•	Retaining and formalizing the outgoing SMS system (unchanged)
+
+⸻
+
+1. Share Pill (UI)
+	•	Located bottom-right of identity banner
+	•	Pill:
+	•	Translucent dark background
+	•	Soft shadow
+	•	Text + share icon use active mode accent color (not hardcoded)
+	•	Must remain legible in all modes (fallback color if needed)
+	•	Rising-sun sticker:
+	•	Overlaps top-right
+	•	Yellow → red/orange rays
+	•	Bold “10” + “points”
+	•	Static (no animation)
+
+Platform
+	•	Hidden on web (or show “available on mobile” tooltip)
+
+⸻
+
+2. Entry to “People I’ve Invited”
+
+Must be clearly tappable from Profile (no hidden flows)
+
+Choose one:
+	•	Row directly under share pill
+or
+	•	Make sticker tappable
+
+Constraint:
+	•	Do not break existing post-send navigation
+
+⸻
+
+3. Share Flow (unchanged, but formalized)
+
+Form Fields
+	1.	First name
+	2.	Phone number (validated)
+	3.	Mode picker:
+	•	Homeowner
+	•	Collaborator
+	•	Trade Pro
+	•	Trade Pro Teammate
+	•	Commercial Facility Pro
+	•	Commercial Facility Teammate
+
+Send button
+	•	Disabled until valid
+
+⸻
+
+4. Send Behavior
+
+On tap Send:
+	1.	Create invite (server)
+	•	Returns tokenized signup link
+	2.	Open native SMS app:
+	•	Number prefilled
+	•	Message body prewritten (see below)
+	3.	User manually sends
+
+Constraints:
+	•	No server-side SMS
+	•	No billing
+	•	Resend uses same invite/token
+
+⸻
+
+5. SMS Message Templates (SOURCE OF TRUTH)
+
+Rules
+	•	Opener varies by mode
+	•	Missing fields → remove clause gracefully
+	•	Never show placeholders like {} or [ ]
+	•	Show inline UI hint if required data missing
+	•	Always append:
+	•	Roles line
+	•	Signup link
+
+⸻
+
+Templates
+
+Homeowner
+
+Hi, this is {first name} at {property address}. I’m inviting you to connect with me on Roundhouse — my home upkeep and beautification platform. Please join me.
+
+Trade Pro
+
+Hi, this is {first name} of {company name}. I’m building on Roundhouse — come connect with me and see what we’re working on.
+
+Commercial Facility
+
+Hi, this is {first name} of {company name}. I’m inviting you to connect with me on Roundhouse — our commercial facility management platform.
+
+Collaborator
+
+Hi, this is {first name}. I’m inviting you to connect with me on Roundhouse — an app for building property profiles and managing improvement projects. Please join me as a collaborator.
+
+Teammates (both types)
+	•	Use:
+Hi, this is {first name} of {company name}.
+	•	Then reuse parent company template body
+
+⸻
+
+Required Footer (always included)
+
+Roles: Trade Pro, Commercial Trade Pro, Homeowner, Collaborator, Trade Pro Teammate, Commercial Pro Teammate
+{signup link}
+
+
+⸻
+
+6. Backend (app_invites)
+
+Fields:
+	•	inviter_user_id
+	•	recipient_first_name
+	•	normalized_phone
+	•	requested_mode
+	•	invite_token
+	•	status:
+	•	sent
+	•	signed_up
+	•	expired
+	•	cancelled
+	•	sent_at
+	•	accepted_user_id
+	•	accepted_mode
+	•	signed_up_at
+
+⸻
+
+7. Acceptance Flow
+
+When user signs up via token:
+	•	Resolve invite
+	•	Attach new user
+	•	Set signed_up
+	•	Store actual mode (may differ)
+
+Then:
+
+Reward
+	•	+10 points
+	•	Idempotent (by invite_id)
+
+Notification
+	•	“{name} joined Roundhouse as a {mode}”
+
+⸻
+
+8. People I’ve Invited (Screen)
+
+List Items
+	•	First name
+	•	Masked phone
+	•	Requested mode
+	•	Status pill:
+	•	Sent / Signed Up / Expired
+	•	Date sent
+	•	If signed up:
+	•	Actual mode
+	•	“View profile” (if connectable)
+
+⸻
+
+9. “How They’re Doing” Signal (NEW REQUIREMENT)
+
+For signed_up only:
+	•	Show secondary line using existing data:
+	•	Tier OR
+	•	Last active
+
+Rules:
+	•	No new tracking
+	•	No placeholders
+	•	If no data → omit line
+
+⸻
+
+10. Summary Header
+	•	Invites sent
+	•	Signups completed
+	•	Conversion rate
+	•	Total points earned
+
+⸻
+
+11. Resend
+	•	Only for sent
+	•	Reopens SMS with:
+	•	Same token
+	•	Same message logic
+	•	No new invite created
+
+⸻
+
+12. Out of Scope (confirmed)
+	•	SMS content changes (already defined above)
+	•	Email / WhatsApp
+	•	Contact picker
+	•	New analytics or tracking
+	•	Visual redesign beyond:
+	•	Accent color
+	•	Signal line
+
+⸻
+
+Bottom Line
+
+This version:
+	•	Implements their 3 required fixes
+	•	Preserves your full messaging system exactly
+	•	Aligns UI, backend, and behavior into one coherent flow
+
+Everything now matches:
+UI → Invite → SMS → Signup → Reward → Dashboard

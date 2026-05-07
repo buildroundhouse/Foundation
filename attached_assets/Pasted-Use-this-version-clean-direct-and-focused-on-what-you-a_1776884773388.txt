@@ -1,0 +1,122 @@
+Use this version—clean, direct, and focused on what you actually want built:
+
+⸻
+
+Agent Instructions — Gamification + Admin Control
+
+Build the points system so it runs automatically in the background, but all control lives inside the admin account (my account).
+
+Think of it like this:
+
+You are sitting inside my admin profile.
+From there, I need a Game Room / Master Game Controller where I can see everything and control everything.
+
+⸻
+
+Points System (User Side – runs automatically)
+
+First login of the day
+	•	Before 6:00 AM = 10 points
+	•	Before 7:00 AM = 5 points
+	•	Before 9:00 AM = 3 points
+	•	After 9:00 AM = 2 points
+
+Other logs
+	•	Post-dated work
+	•	Other valid logs
+= 2 points
+
+Actions
+	•	Answer a question = 5 points
+	•	Client accepts answer = 20 points
+	•	Send estimate = 20 points
+	•	Send invoice = 50 points
+	•	Share Roundhouse = 10 points
+
+System must:
+	•	auto-award points
+	•	prevent duplicates
+	•	keep a full history
+	•	update total points per user
+
+⸻
+
+Admin Account — “Game Room” (This is critical)
+
+Inside my admin profile, create a dedicated section:
+
+Game Room / Master Game Controller
+
+This is where I control the entire system.
+
+⸻
+
+What I need inside the Game Room
+
+1. Score Controls
+
+I can change point values anytime:
+	•	login bonuses
+	•	estimates
+	•	invoices
+	•	Q&A
+	•	shares
+	•	everything
+
+No rebuild needed—just edit values.
+
+⸻
+
+2. Live Scoreboard
+
+Show:
+	•	top users (who’s winning)
+	•	rankings
+	•	total points per user
+
+⸻
+
+3. User Drill-Down
+
+Click a user and see:
+	•	their total points
+	•	their activity history
+	•	what they earned points from
+
+⸻
+
+4. Game Stats
+
+Track totals like:
+	•	total points awarded
+	•	total logins
+	•	total estimates
+	•	total invoices
+	•	total questions answered
+	•	total accepted answers
+	•	total shares
+
+⸻
+
+5. Prize / Reward Management
+
+I need to be able to:
+	•	see who qualifies for prizes
+	•	mark winners
+	•	view their name + mailing address
+	•	track if prize was sent
+
+Simple status:
+	•	eligible
+	•	selected
+	•	shipped
+
+⸻
+
+One-line intent
+
+Build a self-running points system for users, but give full control, visibility, scoring, rankings, and prize management inside my admin “Game Room.”
+
+⸻
+
+That’s the version to hand off.

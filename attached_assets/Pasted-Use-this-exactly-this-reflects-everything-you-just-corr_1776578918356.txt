@@ -1,0 +1,122 @@
+Use this exactly—this reflects everything you just corrected:
+
+⸻
+
+Directive — Timeline becomes the core + global capture
+
+1. Remove “Log Job” as a tab and screen
+	•	Delete the Log Job tab from bottom navigation
+	•	Delete the Log Work page entirely
+	•	Logging is no longer a destination
+
+⸻
+
+2. Add global capture button (persistent)
+
+Add a floating action button (FAB) visible on all screens:
+
+Placement:
+	•	Bottom center or bottom right
+	•	Floats above navigation bar
+
+Icon:
+	•	+ (preferred) OR camera
+
+⸻
+
+On tap → open quick actions
+	•	Take photo
+	•	Add note
+	•	Log work
+
+⸻
+
+Behavior
+	•	Works from any screen
+	•	Fast, no friction
+
+If user has no property:
+→ prompt during flow:
+	•	“Where is this for?”
+	•	Select property OR create one
+
+⸻
+
+3. Timeline becomes primary surface
+	•	Timeline is always accessible (bottom nav: replace Log Job with Timeline if needed)
+	•	Timeline is where:
+	•	work is created
+	•	work is viewed
+
+⸻
+
+4. Timeline empty state (critical change)
+
+Replace all blocking states like:
+→ “No properties yet”
+
+With:
+
+No activity yet
+
+Subtext:
+→ Add your first entry to get started
+
+⸻
+
+Include action inside empty state:
+	•	+ Add entry
+	•	or camera button
+
+⸻
+
+5. No gating before action
+
+Do NOT block user with:
+→ “Create property first”
+
+Instead:
+	•	Allow entry flow to start
+	•	Ask for property only when needed
+
+⸻
+
+6. Timeline content model
+
+Every entry created:
+	•	appears in user timeline
+	•	appears in property timeline (if selected)
+
+Cross-posting remains intact.
+
+⸻
+
+7. Navigation update
+
+Bottom nav becomes:
+	•	Today (or Home)
+	•	Timeline
+	•	Messages
+	•	Profile
+
+(No “Log Job”)
+
+⸻
+
+8. UX principle
+	•	Timeline = living record
+	•	Logging = natural action inside it
+	•	App never blocks user from starting
+
+⸻
+
+9. One-line summary
+
+“Eliminate ‘Log Job’ as a separate screen. Introduce a global capture button available on all screens, and make Timeline the primary place for both viewing and creating activity, with a non-blocking empty state.”
+
+⸻
+
+This aligns everything:
+→ faster
+→ cleaner
+→ feels like a real product instead of a tool

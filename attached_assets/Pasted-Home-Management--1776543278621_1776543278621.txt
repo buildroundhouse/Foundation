@@ -1,0 +1,28 @@
+Home Management                                                                               
+                                                                                                
+  1. Centralized property knowledge base — Store property-specific details (paint colors, grout 
+  types, materials, prior work history) so new service providers can onboard without a "full    
+  reboot"                                                                                       
+  2. Service provider roster & reliability tracking — Manage relationships with trades (pool
+  tech, handyman, contractor) with performance history and continuity                           
+  3. Recurring task scheduling & accountability — Define cadenced objectives for domestic staff
+  ("every other week clean the fridge") with a system replacing texts, post-its, and verbal     
+  reminders                                               
+  4. Structured collaboration windows — Support compressed 10-15 minute check-ins with trade    
+  professionals via pre-built agendas and action plans so short meetings are productive         
+  5. Work visibility & progress tracking — Make completed and in-progress work visible to the
+  homeowner without requiring micromanagement                                                   
+  6. Handoff continuity — When a provider is replaced, their work history, notes, and context
+  transfer cleanly to the successor                                                             
+  7. Multi-property support — Manage multiple homes from a single view
+                                                                                                
+  Commercial / Multi-Location Management                                                        
+                                                                                                
+  8. Cross-location visibility — Unified view of maintenance status across all locations        
+  9. Work order system with context — Go beyond "tasks in, tasks out" — attach history, photos,
+  prior work, and shared understanding                                                          
+  10. Team onboarding with context — New workers entering a site get full background on what's
+  been done, what's pending, and site-specific standards                                        
+  11. Standards & drift detection — Define quality standards and surface when maintenance
+  quality is declining                                                                          
+  12. Delegation with accountability — Allow owners to bring in 

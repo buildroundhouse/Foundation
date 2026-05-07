@@ -1,0 +1,207 @@
+Here’s the full issue record we have so far.
+
+Search: inaccurate account names and identity display
+
+Confirmed naming rules
+
+There is no standalone “Home.”
+There is no standalone “Teammate.”
+
+The correct existing account/avatar types are:
+	1.	My Home
+	2.	Home Teammate
+	3.	Trade Pro
+	4.	Trade Teammate
+	5.	Facility Management
+	6.	Facility Teammate
+	7.	Collaborator
+
+No new types need to be built. This is an ordering, labeling, and display-correctness issue using what already exists.
+
+⸻
+
+Search results: what should show
+
+When the user is searching for people/accounts, the result should not show the person’s real name in the main search result card.
+
+The intended display is:
+	•	company name
+	•	username
+	•	profile photo/avatar
+
+It should not show:
+	•	person’s name
+	•	title/role in the people search result card
+
+The person’s actual name should appear only in limited places already defined by the product rules, specifically:
+	•	Collaborator role
+	•	My Home role
+
+There was also a distinction established earlier:
+	•	for user/person search results: company name + username + photo
+	•	for role search results: company name + role/title
+
+But for the bug you described, the problem is that the search result is showing the wrong identity fields for people.
+
+⸻
+
+Search/account list: inaccurate labels
+
+From the corrections you gave, the inaccurate list issues are:
+	•	“Home” was incorrectly treated as a standalone account type
+	•	“Teammate” was incorrectly treated as a standalone account type
+	•	the correct labels are instead:
+	•	My Home
+	•	Home Teammate
+	•	Trade Pro
+	•	Trade Teammate
+	•	Facility Management
+	•	Facility Teammate
+	•	Collaborator
+
+So any search/account-switching UI that shows “Home” or generic “Teammate” as separate account names is inaccurate.
+
+⸻
+
+Selection bug in search
+
+Reported behavior
+
+When you try to select one result, it selects all of them immediately.
+
+That means:
+	•	the selection state is not isolated per item
+	•	one tap is behaving like a bulk-select
+	•	selection is incorrectly triggering a send state
+
+Intended behavior
+	•	tapping one result should select only that one result
+	•	it should not auto-send anything
+	•	it should let the user review or compose the intended outgoing request/message flow before sending
+
+⸻
+
+Send/request flow bug
+
+Reported behavior
+
+After selection, the interface effectively says something like “sent”, but:
+	•	no visible message is prepared
+	•	no outgoing message thread appears
+	•	no connection request is received on the other end
+	•	no inbound message asking to connect is received
+	•	nothing actually arrives to the recipient
+
+You specifically noted:
+	•	it does not send a message
+	•	it just kind of says sent
+	•	you don’t get to see the message
+	•	the message that was already designed is not being presented and then sent
+	•	no message asking to be connected is received on the other side
+
+What that means functionally
+
+The UI is likely showing a success state without a real completed send pipeline.
+
+In practical terms, one or more of these is failing:
+	•	no request record is being created
+	•	no outgoing message object is being created
+	•	no recipient-facing inbox/system message is being created
+	•	no notification is being triggered
+	•	the compose/send flow is being bypassed entirely
+
+⸻
+
+Most likely failure pattern already identified
+
+From the earlier breakdown, the likely structure of the bug is:
+
+1. Display binding bug
+
+Wrong fields are bound in search result cards:
+	•	showing person name/title instead of company name/username/photo
+
+2. Shared selection state bug
+
+Selecting one account selects all:
+	•	probably one shared boolean or list-state mistake
+	•	item-level state is not scoped correctly
+
+3. Incomplete send pipeline
+
+The UI says “sent,” but the backend flow is incomplete or not firing:
+	•	no connection request delivered
+	•	no message created
+	•	no notification created
+	•	no recipient prompt to connect
+
+⸻
+
+Clean bug buckets you can turn into tasks
+
+Bug 1: incorrect identity fields in people search results
+
+People search cards are showing the wrong information.
+They should show:
+	•	company name
+	•	username
+	•	profile photo
+
+They should not show:
+	•	personal name
+	•	title/role
+
+⸻
+
+Bug 2: inaccurate account labels in search/account UI
+
+The UI is using inaccurate account names.
+There is no standalone:
+	•	Home
+	•	Teammate
+
+The correct account names are:
+	•	My Home
+	•	Home Teammate
+	•	Trade Pro
+	•	Trade Teammate
+	•	Facility Management
+	•	Facility Teammate
+	•	Collaborator
+
+No new build is needed. Use the existing account types and labels correctly.
+
+⸻
+
+Bug 3: selecting one result selects all
+
+Selecting one search result is causing all results to become selected.
+
+Expected:
+	•	one tap selects one account only
+	•	no auto-send
+
+Actual:
+	•	all are selected
+	•	send state appears to trigger immediately
+
+⸻
+
+Bug 4: send flow says sent but nothing is actually sent
+
+The outgoing connection/message flow is failing.
+
+Actual symptoms:
+	•	UI indicates sent
+	•	no outgoing message is prepared or visible
+	•	no recipient message is received
+	•	no connection request arrives
+	•	no connection prompt is shown on the receiving end
+
+Expected:
+	•	outgoing request/message is created
+	•	user can see what is being sent
+	•	recipient receives the connection/request message
+	•	notification/request appears on the other end
+
+If you want, I can turn this into a clean task list written directly to the agent in separate blocks.

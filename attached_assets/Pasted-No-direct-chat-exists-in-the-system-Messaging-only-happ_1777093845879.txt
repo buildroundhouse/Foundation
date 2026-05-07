@@ -1,0 +1,27 @@
+No direct chat exists in the system. Messaging only happens inside entities. If two users do not share an entity, they cannot communicate in the app and must use external contact methods. Remove any recommendation or support for direct messaging systems.
+
+There are exactly three entity types:
+	•	Residential property
+	•	Commercial property / facility
+	•	Business / company
+
+Do not introduce any additional entity types.
+
+Add a Profile as a persistent, user-level workspace. It is the default landing screen on sign-in and must always be accessible. It is not part of account switching and is not tied to avatars. Profile is tied to the user.
+
+Profile includes:
+	•	personal timeline (activity across entities)
+	•	private notes
+	•	personal tasks and planning
+
+Profile is not an entity, is not shared, and does not support interaction with other users.
+
+A user’s timeline is a derived view of actions they created across entities, combined with private items created in Profile. Do not create a personal entity.
+
+Reminders and tasks are user-level, not account-level. They may optionally reference an entity. They must appear globally in Profile and notify the user regardless of which account is active. Tapping a reminder must route to the correct entity with the correct account context automatically. Reminders must have a dedicated UI entry point separate from messaging.
+
+Implement a notification system accessed via a bell icon. Notifications are user-level. They must be labeled by person name first, with entity context second. Example: “Sarah Johnson invited you to Dallas Home.” Notifications are separate from messages and reminders.
+
+Across the system, always use the user’s primary name and profile photo as the consistent identity. Avatar identity is contextual and must not be used as the primary label in global surfaces.
+
+A business must exist as an entity. For existing trade pro accounts that represent companies, create a business entity with kind = ‘business’, use the company name (or fallback to avatar name), and set the controller to the trade pro avatar. The avatar remains identity; the business entity becomes the workspace.

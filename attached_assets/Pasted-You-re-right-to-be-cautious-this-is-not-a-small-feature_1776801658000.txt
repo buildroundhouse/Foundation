@@ -1,0 +1,111 @@
+You’re right to be cautious—this is not a small feature. It’s a system, not a component. If you try to build it all at once, it will break or feel off.
+
+It should be broken down.
+
+Here’s the correct way to chunk it so it actually gets built right:
+
+⸻
+
+Phase 1 — Static Timeline Spine (no interaction)
+
+Goal: Just make it look right
+	•	Center vertical line
+	•	Tiny dots (correct size, spacing based on mock data)
+	•	Bubbles alternating left/right
+	•	Correct bubble content (image, title, property, time)
+
+No expansion. No scrolling tricks.
+
+If this doesn’t feel perfect, stop here and fix it.
+
+⸻
+
+Phase 2 — Real Data + Time Spacing
+
+Goal: Make it truthful
+	•	Feed real timeline data
+	•	Space items based on timestamps (not evenly stacked)
+	•	Group by day if needed
+
+Now it reflects reality, not just layout.
+
+⸻
+
+Phase 3 — Tap → Overlay (no scrolling between items yet)
+
+Goal: Nail the feel of expansion
+	•	Tap bubble → overlay opens
+	•	Background blurs (timeline still visible)
+	•	Overlay anchored to tapped position
+	•	Show full content for ONE item only
+
+No cross-item scrolling yet.
+
+If this doesn’t feel smooth and intentional, don’t move on.
+
+⸻
+
+Phase 4 — Overlay Scroll Between Items
+
+Goal: Turn it into a continuous timeline experience
+	•	Scroll inside overlay
+	•	Transition to next/previous item
+	•	Maintain blur background
+	•	Keep orientation (no “jumping” feeling)
+
+This is the hardest part technically.
+
+⸻
+
+Phase 5 — Progressive Detail Reveal
+
+Goal: Add depth without clutter
+	•	Initial view = summary
+	•	Scroll deeper = notes, materials, receipts appear
+	•	Smooth stacking behavior
+
+⸻
+
+Phase 6 — Polish / Physics
+
+Goal: Make it feel premium
+	•	Animation timing
+	•	Bubble expansion origin
+	•	Blur intensity
+	•	Snap behavior between items
+
+⸻
+
+Reality check
+
+If someone tries to:
+
+“just build the timeline with expanding cards”
+
+…it will fail.
+
+Because:
+	•	The spacing logic
+	•	The overlay anchoring
+	•	The scroll continuity
+
+…all require deliberate staging.
+
+⸻
+
+The one thing to protect
+
+Do not compromise this:
+
+The user never feels like they left the timeline
+
+If that breaks, the whole concept collapses.
+
+⸻
+
+Bottom line
+
+Yes—this needs to be broken into smaller bites.
+And each phase has to feel correct before stacking the next.
+
+If you want, I can define exact FlutterFlow component structure + data model for Phase 1 only so it’s executable without guesswork.

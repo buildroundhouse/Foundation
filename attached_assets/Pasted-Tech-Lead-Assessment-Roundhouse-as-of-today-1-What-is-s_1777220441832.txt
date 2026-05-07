@@ -1,0 +1,85 @@
+Tech Lead Assessment — Roundhouse, as of today
+
+1. What is structurally different
+
+At the data level: Roundhouse inverts the unit of memory. Almost every comparable tool stores work against a person, a project, a job ticket, or a document. Roundhouse stores it against a place or business — the entity. People are reduced to identity tokens that attach to entities; they never connect to each other directly. This is enforced architecturally, not by convention. There is no "friend list," no "contact graph," no person-to-person message channel. The only edges in the graph are person-to-entity. This sounds small. It is not. It means a property's record exists and persists independent of who currently owns it, services it, or remembers it.
+
+At the workflow level: Conversations and history are scoped to the entity, not to the participants. Two pros and a homeowner discussing a roof leak don't have a "conversation thread" — the roof has a thread, and they happen to be in it. When the homeowner sells the house, the thread doesn't disappear. The new owner inherits the property's history. When a pro is replaced, the work doesn't get lost in the old pro's CRM.
+
+2. What makes this meaningfully different from existing tools
+
+Project management software (Asana, Monday, ClickUp) is project-centric. When the project ends, the record's reason for existing ends. Field service apps (ServiceTitan, Jobber, Housecall Pro) are contractor-CRM-centric — the data lives inside the contractor's account; the homeowner is a row in their database. Documentation tools (Notion, Confluence) are document-centric — the page exists, but it has no relationship to the physical thing it describes.
+
+Roundhouse solves a problem none of these do: the persistent, transferable record of a physical thing. A house has 40+ years of stuff happen to it. Today that history is fragmented across whoever happened to own it, whoever happened to service it, and whatever email accounts those people happened to use. Roundhouse makes the house itself the durable container.
+
+The closest existing analogs are industrial CMMS systems (Maximo, Fiix) — but those are enterprise B2B for factories and don't have a consumer/SMB networked shape.
+
+3. Where the system creates a new behavior
+
+Users are forced to think "what entity is this about?" before they communicate. You can't fire off a DM. You add yourself to a property or a business and conversations live there. This is friction at first and clarity later — every interaction is automatically filed against the right place.
+
+For collaboration: a pro who replaces another pro doesn't start from zero. The property tells them what's happened. For accountability: there is a permanent record tied to the place, not to a private contractor's database. For continuity across ownership changes: the property keeps its memory.
+
+4. What is defensible
+
+Data model alone: not very. A schema can be copied in a week.
+
+The workflow constraint (no person-to-person edges): harder to copy because it's a product decision other companies will reflexively walk back the moment they see user friction. Most teams do not have the discipline to keep that rule.
+
+Network effects in a geography: this is the real moat. Once a neighborhood's pros and homeowners are on it, switching costs become real. The first competitor in any geography wins that geography. This is the same dynamic that protected Nextdoor and HomeAdvisor in their early years.
+
+The accumulating record: every month a property is on the platform, the record gets denser and more valuable. After two years, no competitor can replicate what the platform knows. That's a real moat — but only if you survive long enough to accumulate it.
+
+5. Where it is incomplete or weak
+
+Two-sided market gap. Pros need CRM features (scheduling, invoicing, dispatch) Roundhouse doesn't have. Homeowners need a populated service history that requires pros to be using it first. Classic chicken-and-egg.
+Onboarding weight. Adding a property is heavier than following a friend. The first-time-user experience must deliver value before someone has invested in adding their house, or they bounce.
+Discoverability. Without a people graph, how do users find each other? Right now: invitation only. That's clean but slow.
+The entity-only rule will be tested. Users will demand person-to-person messaging. The team has already architected against this twice. Holding the line will require ongoing discipline.
+No transfer-of-ownership flow yet. The whole pitch hinges on records surviving a sale. That mechanism isn't built.
+No insurance / real-estate / lender integration. The latent value of the longitudinal record is unrealized without consumers of that data.
+6. If it works as intended, what does it become
+
+It becomes the Carfax for buildings — the durable, neutral record layer for physical property. Every house has a profile. Service events post to it. Warranties live on it. When the property sells, the record transfers. Pros build reputation tied to specific addresses, not just to star ratings. Insurers underwrite using it. Real-estate listings include it.
+
+If that happens, yes — it becomes a new standard for how physical work is recorded and managed. It would do for buildings what GitHub did for code: turn the artifact into the social object.
+
+Closing — honest verdict
+
+This is a structural shift, not an iteration. The entity-only data model is genuinely novel for this market and is the correct insight. The architecture is real and disciplined; the codebase reflects a team that has fought to keep the model coherent rather than caving to expedient hacks.
+
+It is also not yet a category-defining product. It is a coherent v0.7 of a defensible idea. The defensibility is real but unrealized — it depends entirely on whether you can get two-sided liquidity in a first geography before someone with more capital decides to clone the model and out-spend you.
+
+The technology and the architecture are not the risk. The risk is distribution and the discipline to hold the entity-only line when users push back.
+Give me a highly technical version in 1500 words of all the areas that this framework is different than what's being made now and what's usually readily available with these type of tools
+1 minute ago
+Roundhouse — Technical Architecture Differentiation
+A grounded comparison against the tooling categories Roundhouse overlaps with: project management (Asana, Monday, ClickUp, Trello, Linear), field service management (ServiceTitan, Jobber, Housecall Pro, FieldEdge), property management (Buildium, AppFolio), CRM (Salesforce, HubSpot, Pipedrive), social/messaging (Slack, Microsoft Teams), and consumer documentation (Notion, Evernote).
+
+1. The graph topology
+What everyone else does. Almost every system in this space is built on a relational schema centered on a transactional root entity: a Project, a Job, a Deal, a Ticket, a Workspace. People are joined to that root via membership tables. The root is the unit of memory. When the root closes, the data becomes archival overhead.
+
+What Roundhouse does. The root is a durable, real-world entity: a Residential Property, a Commercial Property, or a Business. There is no project. There is no deal. There is no ticket. The graph has exactly two node kinds — users (identity) and entities (durable real-world things) — and exactly one edge kind: entity_members. The graph is bipartite by construction.
+
+This is enforced at the schema layer, not the application layer. There is no friendships table. There is no contacts table. There is no connections table. Attempts to add person-to-person relationships have been architecturally rejected three times during the build. The bipartite invariant is a load-bearing assumption the rest of the system depends on.
+
+The structural consequence: a Property's record exists independent of any current participant. A Property accumulates state across owners, contractors, and decades. No transactional root in any competing tool has this property — when an Asana project closes, when a Jobber job closes, when a HubSpot deal closes, the gravitational center evaporates.
+
+2. Membership semantics — derived, not stored
+What everyone else does. Membership is a stored relation with explicit role enum values written by the application (e.g., owner, admin, member, viewer). Role assignment is an imperative action. Role conflicts (someone is both an admin and a viewer) require application-level reconciliation logic.
+
+What Roundhouse does. Membership role and direction are auto-cast from avatar-pair semantics. When user A (acting under their homeowner skin) interacts with user B (acting under their trade_pro skin) in the context of an entity, the system computes the (host entity, role, direction) tuple deterministically from the skin pair. The membership row is the projection of an interaction, not the cause of it.
+
+This means:
+
+The role taxonomy is not a free-form enum the UI exposes. It is a closed function over (actor_skin_kind, target_skin_kind, host_entity_kind).
+Misclassification is structurally impossible — a homeowner cannot accidentally be cast as a contractor on their own property because the pair (homeowner, homeowner) has no valid casting onto a Residential Property.
+The role taxonomy can be evolved by changing one casting function rather than running data migrations.
+No FSM or CRM tool I know of derives membership semantics from identity context this way. They all let the user pick a role from a dropdown.
+
+3. The messaging substrate
+What everyone else does. Two patterns dominate:
+
+Direct-message graph (Slack DMs, Teams chats, iMessage): conversations are owned by the participant set. Adding/removing a participant creates a new channel or forks the thread.
+Channel-as-room (Slack channels, Teams channels): conversations are owned by a long-lived workspace abstraction loosely tied to a team or a topic.
+In both, when particip

@@ -1,0 +1,143 @@
+Got it—you want a directive, not a questionnaire.
+
+Use this with them:
+
+⸻
+
+Directive: Intake is Core Architecture, Not a Feature
+
+The onboarding intake is not a form we can defer or simplify later.
+It is the system that defines:
+	•	profile shape
+	•	first screen
+	•	navigation
+	•	tone of experience
+	•	available tools
+
+If we don’t build around this now, we will lock the app into the current model and have to unwind it later.
+
+⸻
+
+What I need built now (not later)
+
+1. Account + Identity Layer
+	•	Username (unique)
+	•	Required profile photo
+	•	New table: user_modes
+	•	One user can have multiple modes
+	•	One active mode at a time
+
+2. Mode Picker (first gate)
+
+After signup:
+
+What are you here as?
+	•	Trade Pro
+	•	Home
+	•	Facilities
+	•	Collaborator → (second step: Trade Pro / Facilities)
+
+This is not optional.
+
+⸻
+
+3. Mode-specific intake (must exist now, can be staged)
+
+We are not asking for full completion upfront.
+
+We are asking for:
+	•	a defined intake schema per mode
+	•	a short required gate
+	•	a progressive completion system
+
+This solves the concern about friction.
+
+⸻
+
+4. Staged intake (addresses drop-off concern)
+
+Implement intake in 3 layers:
+
+Layer 1 — Required (fast)
+	•	identity
+	•	2–3 key questions
+	•	enough to generate a real profile
+
+Layer 2 — Immediate follow-up
+	•	“Complete your profile” (progress bar)
+
+Layer 3 — Ambient prompts
+	•	fill remaining fields over time
+
+This allows:
+	•	full richness of data
+	•	without blocking entry
+
+⸻
+
+5. Mode-driven first screen
+
+After intake, the user must land in a mode-specific experience:
+	•	Trade Pro → work engine
+	•	Home → home base
+	•	Facilities → control center
+	•	Collaborator → worker view
+
+This is the visible payoff and validates the intake.
+
+⸻
+
+6. Keep existing property system intact
+
+Do not remove:
+	•	owner / admin / member / provider
+
+Clarification:
+	•	Mode = who I am
+	•	Role = what I can do in this property
+
+They coexist.
+
+⸻
+
+7. Existing users
+
+Do not auto-assign.
+
+On next login:
+	•	show mode picker
+	•	require selection
+	•	run intake
+
+⸻
+
+What this avoids
+	•	rebuilding onboarding later
+	•	conflicting profile logic
+	•	generic first-time experience
+	•	fragmented UX between roles
+
+⸻
+
+What this enables immediately
+	•	meaningful profiles from day one
+	•	differentiated experiences per user type
+	•	clean expansion into Trade Pro / Facilities / Collaborator
+	•	stronger retention (because first screen feels right)
+
+⸻
+
+Bottom line
+
+We are not asking to build everything at once.
+
+We are asking to:
+	•	define the intake architecture now
+	•	implement a minimal required layer
+	•	and stage the rest
+
+Because the intake is the foundation of the product, not a future enhancement.
+
+⸻
+
+If you want, I can compress this into a one-paragraph “non-negotiable” version for them.

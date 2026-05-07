@@ -1,0 +1,25 @@
+Roundhouse must be implemented as a multi-user social platform, not a single-user logging app. The product has to support shared identity, communication, visibility, and interaction between users across homes, properties, and work relationships. Every core system should be built with multi-user coordination in mind.
+
+Required implementation standards
+
+Roundhouse must include secure user accounts, authentication, and role-based permissions. Users must be able to create profiles, view other authorized users’ profiles, and interact across accounts within the boundaries of their role and relationship to a property or project.
+
+The platform must support direct user-to-user messaging, as well as structured communication tied to a property, job, task, or project. Messages must persist in the cloud and remain visible to authorized participants across devices.
+
+The platform must include shared scheduling. Authorized users must be able to view availability, assigned work, upcoming visits, and schedule changes involving other users. Schedule visibility must be controlled by permissions and role type.
+
+The platform must allow users to post to other users’ profiles, project spaces, or property timelines where permitted. These interactions must be governed by clear access rules defining who can post, who can comment, who can edit, and who can view.
+
+All core data must live in a backend-connected cloud system, not only on a local device. User content, messages, schedules, profiles, relationships, and activity history must sync across devices and persist independently of any one phone.
+
+The system must include notifications for relevant social activity, including messages, profile posts, schedule updates, assignments, comments, and other authorized interactions.
+
+Product requirement statement
+
+Roundhouse is a collaborative social platform for property coordination and work visibility. It is not complete unless users can interact with one another through shared profiles, messaging, scheduling, posting, and permission-based access inside a cloud-backed multi-user environment.
+
+Non-negotiable rule
+
+Any MVP presented as Roundhouse must demonstrate multi-user functionality. A single-device, local-only experience may be used for internal prototyping, but it must not be treated as the true product.
+
+I can turn this into founder language, product-spec language, or developer requirements language.

@@ -1,0 +1,95 @@
+Here’s the final locked version with that correction added cleanly:
+
+⸻
+
+This feature is the Switch Mode system (Accounts). It exists on both the Home Page and the Profile Page, with different functionality.
+
+Home Page (Switching Only)
+	•	Located directly under the top bar
+	•	Displays a horizontal row of account pills
+	•	The leftmost pill is the active account (highlighted)
+	•	Additional accounts appear to the right
+
+Visual:
+	•	Pills use a banner-style image representing the work/brand, not avatars
+
+Interaction:
+	•	Tapping a pill:
+	•	Switches the active account
+	•	Updates the entire app experience (Home, Profile, timeline, messages, etc.)
+
+No ability to add accounts here.
+
+⸻
+
+Profile Page (Switching + Adding Accounts)
+
+Layout
+	•	Section labeled “Switch Mode”
+	•	Directly underneath is a single long pill:
+	•	Left: Active account name (updates when switched)
+	•	Right: “Switch or Add Account” in blue text (text button, no background)
+
+Overlay
+	•	Opens as a full overlay panel with an X (top-left)
+	•	Contains two separate rounded sections (bubbles):
+
+Current Accounts
+	•	Full-width stacked rows
+	•	Each includes a banner-style image (not avatar)
+	•	Tap → switches account and closes overlay
+
+Add Account Types
+	•	Full-width stacked rows
+	•	Homeowner
+	•	Collaborator
+	•	Trade Pro
+	•	Facilities Pro
+	•	Trade Pro “Teammate”
+	•	Facility Pro “Teammate”
+	•	Tap → routes immediately into account creation flow
+
+Scroll Behavior
+	•	The dropdown/overlay itself does not scroll internally
+	•	All options should be visible within the panel (expected max ~10 items)
+	•	Any scrolling that occurs should be the main app screen behind/with the panel, not inside the bubbles
+
+Routing
+	•	Homeowner → Add Property
+	•	Trade Pro → Add Business
+	•	Facilities Pro → Add Business (first step)
+
+⸻
+
+Terminology Note (Needs Review)
+	•	Homeowner may include: owner, caretaker, landlord, renter, manager
+	•	Trade Pro: architect, designer, contractor, handyman, plumber, painter, etc.
+	•	Facilities Pro: company owner, facility supervisor, landlord
+	•	Trade Pro “Teammate”: employee of a company
+	•	Facility Pro “Teammate”: maintenance, cleaning crews, landscaping, laundry, etc.
+	•	Collaborator: neutral individual account for connecting and viewing projects
+
+⸻
+
+Implementation Note
+
+This is a full reboot of the feature.
+
+Build exactly as specified, then test:
+	•	Home switching (global effect)
+	•	Profile switching
+	•	Overlay behavior
+	•	Account creation routing
+
+Report back with:
+	•	What works
+	•	Any friction
+	•	Any recommendations
+
+⸻
+
+Core Distinction
+	•	Home = fast switching (global)
+	•	Profile = switching + adding
+
+⸻

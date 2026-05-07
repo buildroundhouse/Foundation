@@ -1,0 +1,210 @@
+Use this exactly. This is the complete, clean directive to fix Home—no drift.
+
+⸻
+
+ROUNDHOUSE — HOME PAGE FIX (FINAL)
+
+⸻
+
+CORE PRINCIPLE
+
+Home = where the day happens
+Not profile
+Not setup
+Not a dashboard
+
+⸻
+
+1. NAMING
+	•	Use Home as the main page
+	•	Remove “Work” everywhere (titles, headers, empty states)
+
+⸻
+
+2. REMOVE (CRITICAL)
+
+From Home, remove all:
+	•	Profile / identity info
+	•	company name
+	•	role
+	•	experience
+	•	System language:
+	•	“What’s here”
+	•	“No jobs assigned”
+	•	“Your jobs, your day…”
+	•	Empty full-screen state
+
+⸻
+
+3. HOME STRUCTURE (TOP → DOWN)
+
+⸻
+
+A. PEOPLE (PREVIEW)
+	•	Show small row:
+	•	clients + team together
+	•	Tap → opens Clients
+
+Empty:
+
+No people yet
+
+⸻
+
+B. PROPERTIES (PREVIEW)
+	•	Show 2–3 items
+	•	Tap → opens Properties
+
+Empty:
+
+No properties yet
+
+⸻
+
+C. INVOICES (PREVIEW)
+
+Label:
+→ Invoices & Estimates
+	•	Show simple status:
+	•	outstanding
+	•	recent
+
+Empty:
+
+No invoices or estimates yet
+
+⸻
+
+D. RECEIPTS (PREVIEW)
+	•	Show recent expenses
+
+Empty:
+
+No receipts yet
+
+⸻
+
+E. GOALS (PREVIEW)
+
+Label:
+→ Goals
+
+Empty:
+
+No goals yet
+
+⸻
+
+F. TIMELINE (PRIMARY)
+	•	Center of page
+	•	Time-based entries:
+	•	photos
+	•	notes
+	•	logs
+
+Empty:
+
+Nothing yet
+
+⸻
+
+G. + BUTTON (GLOBAL)
+
+Always visible:
+	•	Add photo
+	•	Add note
+	•	Add entry
+
+Feeds Timeline
+
+⸻
+
+4. NAVIGATION (BOTTOM)
+
+Use:
+	•	Home
+	•	Clients
+	•	Properties
+	•	Invoices
+	•	Profile
+
+⸻
+
+5. CLIENTS PAGE
+
+Contains:
+	•	Clients
+	•	Team (core)
+	•	Collaborators
+
+Searchable
+Tap → view / connect
+
+⸻
+
+6. PROPERTIES PAGE
+	•	List of projects / places
+	•	Each contains:
+	•	timeline
+	•	notes
+	•	work
+
+⸻
+
+7. INVOICES PAGE
+
+Contains:
+	•	Invoices
+	•	Estimates
+	•	Receipts
+
+⸻
+
+8. PROFILE PAGE
+
+Identity only:
+	•	Name
+	•	Company
+	•	Role
+	•	Experience
+	•	Contact
+	•	Website / Instagram (optional)
+
+No activity
+
+⸻
+
+9. DESIGN RULES
+	•	No stat boxes
+	•	No dashboards
+	•	No “system” tone
+	•	No empty full-screen state
+	•	Use real-world language only
+
+⸻
+
+10. BEHAVIOR RULE
+	•	Home shows previews only
+	•	Full lists live in their tabs
+	•	Everything is 1 tap away
+
+⸻
+
+11. CONSISTENCY
+
+Apply this structure across:
+	•	Trade Pro
+	•	Homeowner
+	•	Facilities
+	•	Collaborators
+
+⸻
+
+ONE LINE
+
+Home shows you everything at a glance.
+The rest of the app is where you go deeper.
+
+⸻
+
+This is the full correction.

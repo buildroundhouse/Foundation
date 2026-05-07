@@ -1,0 +1,202 @@
+Here are the locked, detailed changes—clean, no repetition, easy to reference:
+
+⸻
+
+PROFILE + IDENTITY
+	1.	Remove “Work” from header
+	2.	Header shows:
+	•	Company (primary)
+	•	Full name + role (secondary)
+	3.	Replace “Username” field with:
+	•	Full Name
+	•	Role
+	4.	Keep @username:
+	•	secondary only (small or hidden)
+
+⸻
+
+LANGUAGE CLEANUP
+	5.	Remove all question-style text
+	6.	Use only labels:
+	•	Trade
+	•	Experience
+	•	Service Area
+	7.	Profiles must read like a business card, not intake
+
+⸻
+
+REMOVE SLOGAN
+	8.	Delete slogan/tagline entirely
+	9.	Remove from:
+	•	profile
+	•	edit screen
+	•	intake
+
+⸻
+
+PROFILE SECTION
+	10.	Rename “What you told us” → Profile
+	11.	Show only:
+
+	•	Trade
+	•	Experience
+	•	Service Area
+	•	Contact (if exists)
+
+⸻
+
+CONTACT INFO
+	12.	Add fields:
+
+	•	Website
+	•	Office phone
+	•	Cell phone
+	•	Instagram
+
+	13.	All optional
+	14.	Only display if filled
+
+⸻
+
+NO EMPTY FIELDS
+	15.	Hide all empty fields
+	16.	No placeholders
+	17.	No “+ Add” in view mode
+
+⸻
+
+EDIT SYSTEM (IMPORTANT)
+	18.	Remove all inline “+ Add”
+	19.	Remove excessive pencil icons
+	20.	Add single Edit button (top right)
+	21.	Edit mode:
+
+	•	shows all fields
+	•	allows add/edit/remove
+
+	22.	Exit edit mode:
+
+	•	hide empty fields again
+
+⸻
+
+ADDRESS
+	23.	Remove address from:
+
+	•	profile
+	•	intake
+
+	24.	Use Service Area only
+
+⸻
+
+SEARCH + PROFILE ACCESS
+	25.	Users searchable by:
+
+	•	name
+	•	username
+
+	26.	Tap user → opens public profile (limited)
+	27.	Hide:
+
+	•	phone
+	•	email
+
+	28.	Show:
+
+	•	company
+	•	name
+	•	trade
+	•	service area
+
+⸻
+
+CONNECT FLOW
+	29.	Replace “Collaborate with” → Connect
+	30.	Connection required to unlock:
+
+	•	deeper profile
+	•	contact info
+
+⸻
+
+PEOPLE (SOCIAL STRUCTURE)
+	31.	Remove “People count” tiles
+	32.	Replace with:
+
+	•	avatar row (preview)
+
+	33.	Tap → full People screen
+	34.	Group into:
+
+	•	Core
+	•	Clients
+	•	Collaborators
+
+⸻
+
+TIMELINE (CORE FEATURE)
+	35.	Rename Today → Timeline
+	36.	Remove:
+
+	•	explanations
+	•	onboarding text
+
+	37.	Timeline shows:
+
+	•	time-based work blocks
+
+	38.	Each block:
+
+	•	represents a visit/session
+
+	39.	Tap block → expand:
+
+	•	photos
+	•	notes
+	•	activity
+
+⸻
+
+LOGGING SYSTEM
+	40.	Remove “Log Job” tab
+	41.	Remove “Log Work” page
+	42.	Add global + button (floating)
+	43.	Available on all screens
+	44.	Actions:
+
+	•	photo
+	•	note
+	•	log
+
+⸻
+
+TIMELINE EMPTY STATE
+	45.	Replace “No properties yet” with:
+
+	•	“No activity yet”
+
+	46.	Include:
+
+	•		•	Add entry
+
+	47.	Do not block user before logging
+
+⸻
+
+OVERALL UX RULE
+	48.	No jargon:
+
+	•	no “engine”
+
+	49.	No marketing tone
+	50.	Everything should feel:
+
+	•	real
+	•	direct
+	•	professional
+
+⸻
+
+If you need next:
+→ we can lock property cards or timeline visuals the same way.

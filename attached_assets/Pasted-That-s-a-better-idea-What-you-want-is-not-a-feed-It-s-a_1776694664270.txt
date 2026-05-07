@@ -1,0 +1,133 @@
+That’s a better idea. What you want is not a feed. It’s a true project timeline.
+
+Better timeline structure
+
+Instead of stacked posts, use a vertical center line down the screen.
+
+Layout
+	•	a wire line in the middle
+	•	date or time markers placed along the line
+	•	bubbles/cards branching off left and right
+	•	each bubble represents a moment, update, or work event
+
+Each bubble can show:
+	•	one preview photo
+	•	short title
+	•	short note
+	•	timestamp
+	•	project or client label
+
+Then when tapped, it expands to show:
+	•	more photos
+	•	more notes
+	•	attachments
+	•	related work log details
+
+⸻
+
+Best behavior
+
+Collapsed state
+
+Each timeline event shows:
+	•	thumbnail
+	•	event title
+	•	date/time
+	•	one-line summary
+
+Expanded state
+
+When opened, it reveals:
+	•	photo gallery
+	•	full note
+	•	linked receipt / invoice / task if relevant
+	•	who posted it
+
+⸻
+
+Time grouping
+
+Use day markers on the center line.
+
+Example:
+	•	Today
+	•	Yesterday
+	•	Monday, April 14
+	•	Saturday, April 12
+
+Under each date marker, events branch out as bubbles.
+
+That gives it structure and avoids the cluttered social-feed look.
+
+⸻
+
+Why this is better
+
+It makes the app feel like:
+	•	a work record
+	•	a job history
+	•	a progress journal
+
+Not like Instagram.
+
+That fits your app much better.
+
+⸻
+
+Recommended visual hierarchy
+
+Center
+	•	thin vertical line
+	•	circular date markers
+
+Left / right alternating cards
+	•	image thumbnail
+	•	note preview
+	•	category tag:
+	•	Work Logged
+	•	Client Note
+	•	Receipt
+	•	Material Run
+	•	Estimate
+	•	Resolution
+
+⸻
+
+Expansion options
+
+When a bubble is tapped, expand into:
+	•	carousel of photos
+	•	full written note
+	•	linked actions
+	•	“add follow-up”
+	•	“attach to list”
+	•	“attach to schedule”
+
+⸻
+
+Best design direction
+
+Use:
+	•	center timeline spine
+	•	alternating event cards
+	•	expandable detail bubbles
+	•	date anchors
+	•	small clean thumbnails, not full stacked images
+
+⸻
+
+Clean feature description
+
+Project Timeline
+A vertical timeline with a center wire and dated markers. Updates appear as expandable side bubbles containing preview photos, notes, and job activity. Tapping a bubble reveals additional photos, notes, and linked actions.
+
+That is the right direction.
+
+Next move is to combine this with your Home layout so the screen becomes:
+	•	top action bar
+	•	Daily Grind
+	•	timeline wire
+	•	quick tools
+	•	bottom nav
+
+That would make the whole screen feel intentional instead of crowded.

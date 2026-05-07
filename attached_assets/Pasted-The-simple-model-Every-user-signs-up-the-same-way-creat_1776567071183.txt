@@ -1,0 +1,208 @@
+The simple model
+
+Every user signs up the same way:
+    •    create account
+    •    username
+    •    required photo
+
+Then the app asks:
+
+What are you here as right now?
+    •    Trade Pro
+    •    Home
+    •    Facilities
+    •    Collaborator
+
+If they tap Collaborator, then it asks:
+    •    Trade Pro Collaborator
+    •    Facilities Collaborator
+
+That is the only split.
+
+After that, each path gets a short intake that builds a profile that already feels alive before they enter it.
+
+⸻
+
+What each path really is
+
+1. Trade Pro
+
+This is the person doing the work.
+
+Their intake should answer:
+    •    what trade are you
+    •    how experienced are you
+    •    where do you work
+    •    what kind of company is this
+    •    what does your work look like
+
+Their profile should feel like:
+    •    work engine
+    •    daily log
+    •    timeline
+    •    clients
+    •    invoices
+    •    estimates
+    •    receipts
+    •    notes
+
+Core feeling:
+I run my day here.
+
+⸻
+
+2. Home
+
+This is the person running a place they care about.
+
+Their intake should answer:
+    •    what is this place
+    •    what do you call it
+    •    where is it
+    •    what matters here
+    •    what does it feel like visually
+
+Their profile should feel like:
+    •    warm
+    •    personal
+    •    visual
+    •    memory-driven
+    •    goals
+    •    reminders
+    •    warranties
+    •    manuals
+    •    pros
+    •    future project ideas
+
+Core feeling:
+This is my place.
+
+⸻
+
+3. Facilities
+
+This is the person responsible for keeping operations running.
+
+Their intake should answer:
+    •    what kind of operation is this
+    •    what does the brand look like
+    •    what are the maintenance goals
+    •    how big is the team
+
+Their profile should feel like:
+    •    control center
+    •    work orders
+    •    team
+    •    subs
+    •    reminders
+    •    manuals
+    •    warranties
+    •    provider list
+    •    future planning
+
+Core feeling:
+Nothing slips here.
+
+⸻
+
+4. Trade Pro Collaborator
+
+This is someone working under a Trade Pro.
+
+Their intake should answer:
+    •    experience level
+    •    strengths
+    •    growth areas
+    •    past work
+
+Their profile should feel like:
+    •    crew member
+    •    assigned work
+    •    personal work history
+    •    limited access
+    •    working inside someone else’s company structure
+
+Core feeling:
+I contribute inside the pro’s system.
+
+⸻
+
+5. Facilities Collaborator
+
+This is someone working inside a facility team.
+
+Their intake should answer:
+    •    experience level
+    •    strengths
+    •    learning goals
+    •    past work
+
+Their profile should feel like:
+    •    workplace
+    •    clock in
+    •    clock out
+    •    work orders
+    •    task execution
+
+Core feeling:
+I’m here to do the work.
+
+⸻
+
+The real product rule
+
+The intake is not just setup.
+The intake decides the tone, tools, and first screen.
+
+That means:
+    •    Trade Pro intake creates a work brain
+    •    Home intake creates a home base
+    •    Facilities intake creates a control center
+    •    Collaborator intake creates a worker role
+
+So the engine should not think:
+“collect data.”
+
+It should think:
+“build the right world for this person.”
+
+⸻
+
+The deeper rule underneath all of it
+
+One person may eventually have:
+    •    Trade Pro
+    •    Home
+    •    Facilities
+
+all under one login.
+
+That is not edge case behavior.
+That is normal behavior.
+
+So the system is:
+
+one account
+→ multiple modes
+→ each mode unlocked by passing through its own intake
+
+That is the cleanest version of what you’ve been describing.
+
+The shortest version to give your engine
+
+Build onboarding as a gated identity builder.
+
+All users create one account with username and required profile photo.
+Then they choose a mode: Trade Pro, Home, Facilities, or Collaborator.
+If Collaborator is selected, split into Trade Pro Collaborator or Facilities Collaborator.
+
+Each mode has a short required intake that defines:
+    •    who they are
+    •    what they manage or do
+    •    what their profile should feel like
+    •    what tools should appear first
+
+The purpose of intake is not just registration.
+It is to generate a profile that already has identity, tone, and direction before the user enters it.
+
+If you want, I can turn this into a very short engine prompt next.

@@ -1,0 +1,88 @@
+You’re right—this UI is off. Here’s exactly what’s going wrong:
+
+⸻
+
+1. Timeline alignment is broken (left side)
+	•	The vertical line and timestamp markers are cut off / too close to the edge
+	•	There’s likely insufficient left padding on the timeline container
+	•	The dot + time (“09 AM”) should sit fully visible, but it’s clipped
+
+Cause:
+	•	Parent container probably has overflow: hidden or tight padding
+	•	Timeline column width is too narrow
+
+⸻
+
+2. Card (“Work logged”) is too wide
+	•	The card stretches too far right, almost edge-to-edge
+	•	It feels unbalanced vs the left timeline column
+	•	There’s no breathing room on the right side
+
+Cause:
+	•	Missing margin-right or safe area padding
+	•	Card is likely set to width: 100% without accounting for timeline offset
+
+⸻
+
+3. Timeline-to-card relationship is unclear
+	•	The dot doesn’t visually “connect” cleanly to the card
+	•	The spacing between the vertical line and the card is off
+	•	Makes it feel like two unrelated elements
+
+⸻
+
+4. Visual hierarchy problem
+	•	“Yesterday” label is floating without strong alignment to the timeline
+	•	The timeline itself doesn’t read as a clear vertical flow
+
+⸻
+
+What it should look like (fix direction)
+
+Layout structure:
+
+|   timeline   |   content card           |
+|      •       |   [ Work logged ]        |
+|      |       |                          |
+
+
+⸻
+
+Specific fixes (actionable)
+
+1. Give the timeline a fixed column
+	•	Width: ~40–60px
+	•	Add left padding (~16px) so nothing clips
+
+2. Offset the card properly
+	•	Add margin-left (same as timeline width)
+	•	Add margin-right: 16px for balance
+
+3. Fix the connector
+	•	Align the dot vertically with the card header
+	•	Ensure the line runs through the center of the dot
+
+4. Remove clipping
+	•	Check for:
+	•	overflow: hidden
+	•	negative margins
+	•	Especially on the parent scroll container
+
+⸻
+
+Why it feels “not in the middle”
+
+Because:
+	•	Left side is compressed
+	•	Right side is stretched
+→ visually shifts everything off-center
+
+⸻
+
+Bottom line
+
+This isn’t a “data state” issue—it’s layout math breaking the timeline system.
+
+⸻
+
+If you want, I can sketch the exact FlutterFlow layout structure so you can fix it in one pass.

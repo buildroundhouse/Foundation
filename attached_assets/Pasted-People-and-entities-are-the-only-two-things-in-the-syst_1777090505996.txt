@@ -1,0 +1,114 @@
+People and entities are the only two things in the system.
+
+Entities are:
+	•	Residential properties
+	•	Commercial properties / facilities
+	•	Businesses / companies
+
+Entities are where all work, communication, and history happen.
+
+People have accounts (avatars).
+Accounts are identity only.
+
+People do not connect to people.
+People are added to entities.
+
+⸻
+
+Search
+
+People search finds a person and shows their accounts (avatars) as context.
+
+Company/entity search finds businesses or properties directly.
+
+Search does not create a connection.
+It starts an add to entity flow.
+
+⸻
+
+Core Flow
+
+Select person → choose entity → choose how they participate → system completes invite
+
+⸻
+
+Step-by-step
+	1.	User searches and selects a person
+	2.	System asks:
+“Where are you adding them?”
+
+	•	choose a property
+	•	or choose a business
+
+	3.	System asks:
+“How are you adding them here?”
+
+Options depend on context, for example on a property:
+	•	Hire through business (if they have one)
+	•	Add as teammate
+	•	Add as collaborator
+
+	4.	If the person has a business, show:
+
+	•	their business as a separate option for “hire”
+
+	5.	User selects the option
+
+⸻
+
+Account (Avatar) Handling
+
+If the person already has the needed account (avatar):
+	•	create the participant record
+	•	they are added to the entity
+
+If the person does NOT have the needed account:
+	•	send an account setup request tied to the invite
+
+Example message:
+“Sarah wants to add you as a teammate for Dallas Home. Set up this account to accept.”
+
+When accepted:
+	•	the system creates the required account (avatar)
+	•	adds them to the entity
+
+⸻
+
+Important Rule
+
+Selecting a person does not define the relationship.
+The relationship is chosen explicitly during the add flow.
+
+This prevents mistakes (e.g., hiring someone as a pro vs adding them as a family helper).
+
+⸻
+
+Entity Participation
+
+All participation is stored as:
+	•	entityId
+	•	account (avatar)
+	•	status (invited, requested, approved, etc.)
+	•	permissions
+
+All actions (messages, tasks, photos, timelines, etc.) are tied to the entity.
+
+⸻
+
+Client Behavior
+
+Clients are not a separate data model.
+
+They are a view of properties filtered by the person attached.
+
+Example:
+Search “Sheila” → opens Sheila’s property.
+
+⸻
+
+Final Rule
+
+Entities hold the work.
+Accounts (avatars) define the person.
+All connections are created by adding people to entities.
+If an account is missing, the system creates it during the invite process.

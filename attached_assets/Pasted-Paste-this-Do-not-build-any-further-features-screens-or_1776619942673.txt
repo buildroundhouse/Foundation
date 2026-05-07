@@ -1,0 +1,76 @@
+Paste this:
+
+Do not build any further features, screens, or refinements in this current version. Freeze it where it is.
+
+Priority now is to turn everything built so far into a clean handoff package for the real mobile-first build.
+
+I need a complete spec of what exists so far, with no new design work and no further iteration on this shell.
+
+Produce a handoff that includes:
+	1.	user flows
+sign in
+home
+create property profile
+add photo or note
+timeline behavior
+invite to property
+roles and permissions
+invoices, estimates, receipts
+goals
+people / clients / collaborators
+	2.	screen map
+list every screen that exists or has been defined
+state the purpose of each screen in one or two sentences
+note which screens are complete, partial, or only conceptual
+	3.	navigation map
+show the intended navigation structure
+default landing screen
+bottom nav
+what opens from what
+where timeline, profile, properties, people, and invoices live
+	4.	data model
+define the entities and fields needed for Firebase
+users
+profiles
+properties
+property memberships
+timeline items
+photos
+notes
+invoices
+estimates
+receipts
+goals
+messages or threads if applicable
+	5.	relationships
+user to property
+property to members
+property to timeline items
+timeline item to user
+timeline item to property
+invoice to property
+receipt to property
+goal to property or user
+	6.	permissions
+plain-English rules for who can create, view, edit, invite, transfer ownership, and contribute
+	7.	language and UI rules
+capture the naming decisions already made
+Home
+Profile
+Clients
+Properties
+Invoices
+Receipts
+Goals
+remove Work
+remove slogan
+remove No ___ yet language
+timeline-centered experience
+one primary action, lighter secondary actions
+	8.	open issues
+list what is still unresolved or needs redesign
+be honest and explicit
+
+This should be treated as sheet music for the real build, not a continuation of the current shell.
+
+Again, do not build further on this version. Do not add more screens. Do not keep refining the shell. Freeze it and document it so it can be rebuilt properly in the real mobile app foundation.

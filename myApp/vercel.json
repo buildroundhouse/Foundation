@@ -1,8 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "expo",
   "installCommand": "pnpm install",
-  "buildCommand": "cd myApp && pnpm exec expo export --platform web",
-  "outputDirectory": "myApp/dist",
+  "buildCommand": "pnpm exec expo export --platform web",
+  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/(.*)",

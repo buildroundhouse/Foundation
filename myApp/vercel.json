@@ -1,6 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "expo",
   "installCommand": "pnpm install",
   "buildCommand": "pnpm exec expo export --platform web",
   "outputDirectory": "dist",

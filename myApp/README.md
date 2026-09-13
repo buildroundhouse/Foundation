@@ -36,5 +36,6 @@ npx expo export --platform android
 - `app/profile.tsx` owns profile switching.
 - `providers/auth-provider.tsx` owns the signed-in Firebase session.
 - `providers/profile-provider.tsx` owns persisted active-profile selection.
-- New shared records must be scoped to a property or business.
+- `RECORD_SYSTEM.md` governs storage, linking, property continuity, and attribution.
+- Created data is stored independently and linked wherever it is allowed to appear.
 - Do not restore the discarded starter tabs, demo screens, or generic modal route.

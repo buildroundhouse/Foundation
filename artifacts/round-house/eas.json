@@ -5,10 +5,7 @@
   },
   "build": {
     "base": {
-      "node": "20.18.0",
-      "env": {
-        "EXPO_PUBLIC_DOMAIN": "round-house.replit.app"
-      }
+      "node": "20.18.0"
     },
     "development": {
       "extends": "base",
@@ -35,9 +32,6 @@
       "extends": "base",
       "distribution": "internal",
       "channel": "preview",
-      "env": {
-        "EXPO_PUBLIC_DOMAIN": "round-house.replit.app"
-      },
       "ios": {
         "simulator": false,
         "resourceClass": "m-medium"
@@ -58,18 +52,12 @@
     },
     "preview-staging": {
       "extends": "preview",
-      "channel": "preview-staging",
-      "env": {
-        "EXPO_PUBLIC_DOMAIN": "round-house-staging.replit.app"
-      }
+      "channel": "preview-staging"
     },
     "production": {
       "extends": "base",
       "channel": "production",
       "autoIncrement": true,
-      "env": {
-        "EXPO_PUBLIC_DOMAIN": "round-house.replit.app"
-      },
       "ios": {
         "resourceClass": "m-medium"
       },

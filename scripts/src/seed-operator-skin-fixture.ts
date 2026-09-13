@@ -47,7 +47,7 @@
  * Usage:
  *   pnpm --filter @workspace/scripts run seed:operator-skin-fixture
  *
- * Required env vars (already present on Replit):
+ * Required environment variables:
  *   - DATABASE_URL
  *   - EXPO_PUBLIC_FIREBASE_API_KEY
  */

@@ -25,8 +25,7 @@
     "openai": "^4.79.1",
     "pino": "^9",
     "pino-http": "^10",
-    "stripe": "^22.0.2",
-    "stripe-replit-sync": "^1.0.0"
+    "stripe": "^22.0.2"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.10",

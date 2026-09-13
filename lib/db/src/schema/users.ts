@@ -72,7 +72,7 @@ export const usersTable = pgTable("users", {
   // of (tabs). The Hub lets them own up to 6 demo accounts (one per
   // role kind) and "wear" any of them so the rest of the app — search,
   // messaging, points, the firewall — treats those accounts as live
-  // users. Default false; flipped manually by Replit-side admin tooling.
+  // users. Default false; flipped manually by trusted admin tooling.
   isAdmin: boolean("is_admin").notNull().default(false),
   // Denormalized "this users row belongs to a Wardrobe demo persona"
   // flag. Mirrors the presence of an `admin_demo_profiles` row keyed on

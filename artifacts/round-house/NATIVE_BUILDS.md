@@ -8,7 +8,7 @@ devices" test plan in `e2e/`.
 ## What's in the repo
 
 - `app.json` — declares the iOS `bundleIdentifier` and Android `package`
-  (`app.replit.roundhouse`). EAS needs both to register the app under your
+  (`com.buildroundhouse.roundhouse`). EAS needs both to register the app under your
   Expo account / App Store Connect / Play Console.
 - `eas.json` — build profiles consumed by `eas build`:
   - `development` — internal-distribution dev client. iOS targets the
@@ -21,14 +21,13 @@ devices" test plan in `e2e/`.
     iOS device `.ipa`, Android `.apk`. Use for handing a build to a tester.
   - `preview-simulator` — same as `preview` but built for the iOS
     Simulator (`.app` bundle).
-  - `preview-staging` — same shape as `preview`, but `EXPO_PUBLIC_DOMAIN`
-    points at `round-house-staging.replit.app`.
+  - `preview-staging` — same shape as `preview`, on a separate update channel.
   - `production` — App Store / Play Store build. iOS `.ipa`, Android
     `.aab`, `autoIncrement: true`.
 
-Every profile sets `EXPO_PUBLIC_DOMAIN` so the bundle bakes in the API host
-at build time. The same env var is read by `app/_layout.tsx` (passes it to
-the API client's `setBaseUrl`) and by `lib/uploads.ts`.
+Set `EXPO_PUBLIC_DOMAIN` in the EAS environment so the bundle bakes in the
+API host at build time. The same env var is read by `app/_layout.tsx` (passes
+it to the API client's `setBaseUrl`) and by `lib/uploads.ts`.
 
 ## One-time setup
 
@@ -63,7 +62,7 @@ extract, and drag the `.app` onto a running iOS Simulator window — or run:
 
 ```sh
 xcrun simctl install booted /path/to/Roundhouse.app
-xcrun simctl launch booted app.replit.roundhouse
+xcrun simctl launch booted com.buildroundhouse.roundhouse
 ```
 
 ### iOS device (TestFlight-style internal install)
@@ -96,25 +95,24 @@ Play Console).
 
 ## Pointing a build at a non-prod API
 
-Each profile in `eas.json` sets `EXPO_PUBLIC_DOMAIN` under `env`. To point
-a build at a different API server (e.g. a staging Replit deployment, a
-PR preview, or your own machine via a tunnel):
+Set `EXPO_PUBLIC_DOMAIN` in the selected EAS environment. To point a build
+at a different API server (for example a staging deployment, PR preview,
+or your own machine via a tunnel):
 
-1. Edit `eas.json` and change the `EXPO_PUBLIC_DOMAIN` value on the
-   profile you're about to build, OR pass it inline:
+1. Configure the variable in EAS, or pass it inline:
    ```sh
-   EXPO_PUBLIC_DOMAIN=my-pr-preview.replit.app \
+   EXPO_PUBLIC_DOMAIN=https://api-preview.example.com \
      eas build --profile preview --platform ios
    ```
 2. Trigger the build as above. The bundled JS reads the value at module
    load time (see `app/_layout.tsx`), so it ships baked into the app —
    you cannot change the host without producing a new build.
-3. The API server must be reachable from the device's network. Replit
-   `*.replit.app` URLs are publicly routable; a local dev server is not
-   unless you run an `ngrok` / `cloudflared` tunnel and point
+3. The API server must be reachable from the device's network. A local
+   development server is not reachable unless you run an `ngrok` /
+   `cloudflared` tunnel and point
    `EXPO_PUBLIC_DOMAIN` at the tunnel host.
 
-`preview-staging` is provided as a worked example.
+Use EAS environment scopes to give `preview-staging` a different API URL.
 
 > **Pipeline validation status:** the build configuration in this repo
 > has NOT yet been validated by an actual `eas build` run on a real

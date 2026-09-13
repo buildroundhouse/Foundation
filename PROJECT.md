@@ -36,7 +36,7 @@ pnpm workspace monorepo using TypeScript. Multi-user mobile social platform for 
   - Routes: `/users/me`, `/properties`, `/logs`, `/feed`, `/messages`, `/conversations`, `/notifications`
   - Auto-creates DB user record on first `GET /users/me` using Clerk SDK
   - **Startup health endpoint** (`GET /api/health`, unauthenticated): reports the boot-time migration result for deploy tooling and uptime checks. Lives in `routes/health.ts` alongside the existing `/api/healthz` liveness probe but is intentionally NOT in the OpenAPI spec. Body shape: `{ status: "ok"|"starting"|"error", migrations: { state, durationMs?, completedAt?, unresolved?, error? } }`. Returns `200` once migrations finish cleanly (`state: "ok"`), `503` while migrations are still running (`state: "pending"`), and `500` if startup migrations failed (`state: "failed"`). The server refuses to start when `unresolved` is non-empty, so a reachable `/api/health` will always show `unresolved: []`.
-  - **Probe wiring** (in `artifacts/api-server/.replit-artifact/artifact.toml` under `[services.production.health.*]`):
+  - **Probe wiring**: configure the deployment platform's startup check at `/api/health` and liveness check at `/api/healthz`.
     - `startup` → `/api/health` — autoscale will not route traffic to a new revision until this returns `200`, so a failed migration (`500`) or stuck migration (`503`) blocks the deploy and surfaces in the Publish UI as a failed rollout.
     - `liveness` → `/api/healthz` — recurring cheap probe; if the process becomes unresponsive the platform recycles the instance, and repeated failures show up in the deployment logs / dashboard.
     - To wire an additional external uptime check (e.g. UptimeRobot, BetterStack, Pingdom), point it at `https://<deployed-domain>/api/health` and alert on any non-`200` response.
@@ -104,7 +104,7 @@ Round House has formally moved from an avatar-to-avatar connection model to an *
 - OpenAPI title MUST stay `"Api"` (Orval uses it to prefix generated hook names)
 - Design: no emojis in UI, terracotta #C8693A for primary actions, logo at `assets/images/logo.png`
 - Clerk env vars: `CLERK_SECRET_KEY`, `CLERK_PUBLISHABLE_KEY` (server), `EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY` (mobile, injected from `CLERK_PUBLISHABLE_KEY` at dev start)
-- Outbound email (business invites): SendGrid via `SENDGRID_API_KEY`. Optional `INVITE_FROM_EMAIL`, `INVITE_FROM_NAME`, `INVITE_LINK_BASE_URL`. The Replit SendGrid integration was dismissed for this workspace, so email is wired via env var directly. When the key is missing, `POST /invites/business` returns HTTP 503 with a clear error so the modal can surface it.
+- Outbound email (business invites): SendGrid via `SENDGRID_API_KEY`. Optional `INVITE_FROM_EMAIL`, `INVITE_FROM_NAME`, `INVITE_LINK_BASE_URL`. Email is wired directly through environment variables. When the key is missing, `POST /invites/business` returns HTTP 503 with a clear error so the modal can surface it.
 - Push-token cleanup env vars (api-server, optional):
   - `STALE_PUSH_TOKEN_DAYS` — inactivity threshold in days before a token is cleared (default `60`)
   - `STALE_PUSH_TOKEN_SWEEP_HOURS` — interval in hours between sweeps (default `24`)

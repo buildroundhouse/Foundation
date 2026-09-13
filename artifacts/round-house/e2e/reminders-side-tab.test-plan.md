@@ -43,13 +43,13 @@ walk-throughs of identity / mode-picker / intake on every run.
 
 ### One-time seeding
 
-1. In the Replit shell, open the Roundhouse web preview and visit
+1. In a terminal, open the Roundhouse web preview and visit
    `/(auth)/sign-up`.
 2. Create an account with throwaway credentials, e.g. `e2e-reminders@roundhouse.test` / a strong test password.
 3. Complete the onboarding flow (`identity` → `mode-picker` → `intake`) until
    the bottom-tab Timeline screen appears.
 4. Sign out.
-5. Save the credentials as Replit Secrets so the test runner can pick them up:
+5. Save the credentials as CI secrets so the test runner can pick them up:
    - `E2E_FIREBASE_EMAIL` — the seeded account email.
    - `E2E_FIREBASE_PASSWORD` — the seeded account password.
 

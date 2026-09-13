@@ -124,11 +124,11 @@ to the due-hint text in the same row's meta line.
 ### Prerequisites
 
 - The signed-in fixture from `reminders-side-tab.test-plan.md` must be in
-  place: `E2E_FIREBASE_EMAIL` / `E2E_FIREBASE_PASSWORD` Replit Secrets pointing
+  place: `E2E_FIREBASE_EMAIL` / `E2E_FIREBASE_PASSWORD` CI secrets pointing
   at a seeded Firebase user that has finished onboarding.
 - The API server workflow (`artifacts/api-server: API Server`) must be running
   so the round-house Expo client can read/write reminders.
-- `DATABASE_URL` must be set in the Replit environment so the seed shell
+- `DATABASE_URL` must be set in the test environment so the seed shell
   command can connect to the same Postgres the API server uses.
 
 ### Plan

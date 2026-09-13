@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-# Roundhouse post-merge hook (configured via [postMerge] in .replit).
+# Roundhouse post-merge verification hook.
 #
 # This is the project's only every-merge CI surface — there is no
 # GitHub Actions workflow. It runs after every task merge to keep the
@@ -26,11 +26,10 @@ set -euo pipefail
 # their declared known-empty state so the next test run starts from a
 # deterministic baseline.
 #
-# The fixture credentials each seed prints are pre-stored under
-# [userenv.shared] in .replit (E2E_TEAM_CHIP_*, E2E_PICKED_SKIN_*,
-# and the per-client pro-tag pair). Rotate them by re-running the
-# matching seed locally and updating .replit if Firebase passwords
-# change — see artifacts/round-house/e2e/README.md.
+# Store fixture credentials as CI secrets (E2E_TEAM_CHIP_*,
+# E2E_PICKED_SKIN_*, and the per-client pro-tag pair). Rotate them by
+# re-running the matching seed locally and updating the CI environment
+# if Firebase passwords change — see artifacts/round-house/e2e/README.md.
 
 # ---------------------------------------------------------------------
 # Phase 1 — baseline

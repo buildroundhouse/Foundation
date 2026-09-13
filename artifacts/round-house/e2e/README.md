@@ -7,9 +7,8 @@ fixtures" section.
 
 ## Auto-seeded fixtures + post-merge CI gate
 
-`scripts/post-merge.sh` (configured under `[postMerge]` in `.replit`)
-is the project's only every-merge CI surface — there is no GitHub
-Actions workflow. It runs after every task merge and is split into a
+`scripts/post-merge.sh` is the project's merge verification entry point.
+Configure the CI provider to run it after changes. It is split into a
 baseline phase (always) plus a `PublicProfileModal` phase that is
 **path-conditional**: the seeds + e2e gate only fire when the merge
 touches one of the modal's surfaces.
@@ -67,13 +66,12 @@ Specs the gate currently covers:
 | `seed:picked-skin-banner-fixtures`  | `picked-skin-banner-swap.test-plan.md` (task #699) | `E2E_PICKED_SKIN_*` |
 | `seed:pro-tag-fixtures`             | `per-client-pro-tag.test-plan.md` / `pro-per-client-tag.test-plan.md` | `E2E_PRO_TAG_*` |
 
-The `E2E_TEAM_CHIP_*` and `E2E_PICKED_SKIN_*` credential pairs are
-stored under `[userenv.shared]` in `.replit` so they're available
-everywhere the post-merge hook runs. The pro-tag seed prints
+Store the `E2E_TEAM_CHIP_*` and `E2E_PICKED_SKIN_*` credential pairs as
+CI secrets so they're available wherever the verification hook runs. The pro-tag seed prints
 `E2E_PRO_TAG_*` for the test runner to pick up locally — wire them in
 the same way if a future plan needs them in `[userenv.shared]`. Rotate
 any of them by re-running the relevant seed locally and updating
-`.replit` if the Firebase password changes — see the per-fixture
+the CI secret if the Firebase password changes — see the per-fixture
 sections below.
 
 ## Standard pre-onboarded fixture
@@ -200,8 +198,8 @@ What the script does (see `scripts/src/seed-nudge-fixtures.ts`):
 The script only PRINTS the credentials at the end — it does not write
 them into the project environment. Copy the printed `*_EMAIL` /
 `*_PASSWORD` pairs into the project's shared env vars (or secrets)
-yourself. The current values are already stored on this Repl; re-run
-the script only if you rotate passwords or wipe the DB / Firebase
+yourself. Store the current values as CI secrets; re-run the script only
+if you rotate passwords or wipe the DB / Firebase
 project.
 
 ## Wardrobe-admin fixture (destructive-confirms Section A)
@@ -236,7 +234,7 @@ What the script does (see `scripts/src/seed-admin-fixture.ts`):
 The script only PRINTS the credentials — it does not write them into
 the project environment. Copy the printed `E2E_ADMIN_EMAIL` /
 `E2E_ADMIN_PASSWORD` into the project's shared env vars yourself. The
-current values are already stored on this Repl; re-run the script only
+current values should be stored as CI secrets; re-run the script only
 if you rotate the password or wipe the DB / Firebase project.
 
 ## Facility Manager fixture (My Team tab facilities skin)

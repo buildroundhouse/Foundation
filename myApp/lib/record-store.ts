@@ -2,11 +2,40 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system/legacy';
 import { Platform } from 'react-native';
 
+export const KNOWN_RECORD_KINDS = [
+  'capture',
+  'notation',
+  'receipt',
+  'estimate',
+  'invoice',
+  'payment',
+  'message',
+  'document',
+  'vault-item',
+  'work-log',
+  'work-request',
+  'task',
+  'list',
+  'reminder',
+  'schedule-event',
+  'resolution',
+  'maintenance',
+  'standard',
+  'asset-history',
+  'approval',
+  'invitation',
+  'handoff',
+] as const;
+
+export type KnownRecordKind = (typeof KNOWN_RECORD_KINDS)[number];
+export type RecordKind = KnownRecordKind | (string & {});
+
 export type RoundhouseRecord = {
   id: string;
-  recordType: 'capture' | 'notation' | 'receipt' | 'estimate' | 'invoice' | 'message' | 'document' | 'work-log';
+  recordType: RecordKind;
   createdAt: string;
   createdBy: string | null;
+  attributionVisibility: 'private' | 'participants' | 'public';
   time: string;
   title: string;
   detail: string;
@@ -20,6 +49,8 @@ export type RecordLink = {
   destinationType: 'profile' | 'property' | 'business';
   destinationId: string;
   destinationName: string;
+  visibility: 'private' | 'participants' | 'property-history' | 'public';
+  survivesDestinationArchive: boolean;
 };
 
 export type TimelineEvent = RoundhouseRecord & {
@@ -81,6 +112,26 @@ export async function saveRecordWithLinks(
   const links = [...newLinks, ...store.links.filter((item) => !newLinkIds.has(item.id))];
 
   await AsyncStorage.setItem(recordStoreKey(userId), JSON.stringify({ records, links }));
+}
+
+export async function unlinkDestination(
+  userId: string | null,
+  destinationType: RecordLink['destinationType'],
+  destinationId: string,
+) {
+  const store = await readStore(userId);
+  const links = store.links.filter((link) => (
+    link.survivesDestinationArchive
+    || link.destinationType !== destinationType
+    || link.destinationId !== destinationId
+  ));
+
+  // Only links are removed. Canonical records and their attachments are never
+  // cascade-deleted when a profile, property, or business is disconnected.
+  await AsyncStorage.setItem(
+    recordStoreKey(userId),
+    JSON.stringify({ records: store.records, links }),
+  );
 }
 
 export async function preserveRecordImage(uri: string | undefined, recordId: string) {

@@ -35,9 +35,9 @@ type SurfaceKey =
   | 'receipts' | 'properties' | 'resolutions' | 'people' | 'money' | 'calendar';
 
 const INITIAL_EVENTS: TimelineEvent[] = [
-  { id: '1', recordType: 'work-log', createdAt: '2026-09-13T08:10:00.000Z', createdBy: null, time: '8:10 AM', title: 'Morning walkthrough', detail: 'Reviewed cabinet layout before installation.', entity: 'Spring Lake', tone: C.blue },
-  { id: '2', recordType: 'receipt', createdAt: '2026-09-13T10:45:00.000Z', createdBy: null, time: '10:45 AM', title: 'Material receipt', detail: 'Walnut veneer and finish supplies recorded.', entity: 'JD', tone: C.gold },
-  { id: '3', recordType: 'message', createdAt: '2026-09-13T13:30:00.000Z', createdBy: null, time: '1:30 PM', title: 'Client update', detail: 'Shared progress and next-step notes.', entity: 'Viva Day Spa', tone: C.green },
+  { id: '1', recordType: 'work-log', createdAt: '2026-09-13T08:10:00.000Z', createdBy: null, attributionVisibility: 'private', time: '8:10 AM', title: 'Morning walkthrough', detail: 'Reviewed cabinet layout before installation.', entity: 'Spring Lake', tone: C.blue },
+  { id: '2', recordType: 'receipt', createdAt: '2026-09-13T10:45:00.000Z', createdBy: null, attributionVisibility: 'private', time: '10:45 AM', title: 'Material receipt', detail: 'Walnut veneer and finish supplies recorded.', entity: 'JD', tone: C.gold },
+  { id: '3', recordType: 'message', createdAt: '2026-09-13T13:30:00.000Z', createdBy: null, attributionVisibility: 'private', time: '1:30 PM', title: 'Client update', detail: 'Shared progress and next-step notes.', entity: 'Viva Day Spa', tone: C.green },
 ];
 
 const SURFACES: Record<SurfaceKey, { title: string; subtitle: string; items: string[] }> = {
@@ -146,6 +146,7 @@ export default function CommandCenterScreen() {
         recordType: imageUri ? 'capture' : 'notation',
         createdAt: now.toISOString(),
         createdBy: user?.uid ?? null,
+        attributionVisibility: 'private',
         time: now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
         title: imageUri ? 'Photo captured' : 'Notation',
         detail: captureNote.trim() || 'Fill in details later.',
@@ -162,6 +163,8 @@ export default function CommandCenterScreen() {
         destinationType: 'profile',
         destinationId: currentProfile.id,
         destinationName: currentProfile.name,
+        visibility: 'private',
+        survivesDestinationArchive: false,
       }]);
       setCaptureNote('');
       setCaptureImage(undefined);

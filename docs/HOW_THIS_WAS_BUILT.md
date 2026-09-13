@@ -1,6 +1,6 @@
 # How Round House Was Built
 
-A retrospective reconstructed from git history, the project task list, and `replit.md`. Each phase below corresponds to a real commit (or run of commits) you can find in `git log`. Where details aren't in a commit message, I've kept the description high-level and called it out.
+A retrospective reconstructed from git history, the project task list, and `PROJECT.md`. Each phase below corresponds to a real commit (or run of commits) you can find in `git log`. Where details aren't in a commit message, I've kept the description high-level and called it out.
 
 ---
 
@@ -12,7 +12,7 @@ The starting point: a pnpm-workspace monorepo template.
 2. **Initial dependencies** (`685cf43`).
 3. **Brand assets** (`da67534`, `f922316`) — installed the Round House line-art logo as the app icon, splash screen, and in-app header. Locked in the warm terracotta (`#C8693A`) / charcoal palette and the Inter font family.
 
-At the end of this phase the project had three artifacts registered: the **API Server**, the **Round House** Expo mobile app, and the **Mockup Sandbox** (a Vite-based component preview surface used on the Replit canvas).
+At the end of this phase the project had three packages: the **API Server**, the **Round House** Expo mobile app, and the **Mockup Sandbox** (a Vite-based component preview surface).
 
 ---
 
@@ -75,13 +75,13 @@ The pattern: Clerk's hosted email verification step kept producing edge cases th
 
 16. **Web-only Google button** (`443abea`). Hid "Continue with Google" on iOS/Android since the popup-based flow is web-only; native would need `@react-native-google-signin` to wire properly.
 
-This session also added `userId` to the auth context, fixed a tabs layout bug that briefly rendered before `isLoaded` resolved, and set the Firebase config env vars in Replit (`EXPO_PUBLIC_FIREBASE_*` + `FIREBASE_PROJECT_ID`).
+This session also added `userId` to the auth context, fixed a tabs layout bug that briefly rendered before `isLoaded` resolved, and configured the Firebase environment variables (`EXPO_PUBLIC_FIREBASE_*` + `FIREBASE_PROJECT_ID`).
 
 ---
 
 ## Phase 5 — Feature additions delivered alongside the auth work (Tasks #5, #6, #7)
 
-17. **Task #5 — Attachments for property specs and notes** (`baa7f5b`). Provisioned Replit Object Storage. New endpoints:
+17. **Task #5 — Attachments for property specs and notes** (`baa7f5b`). Provisioned Google Cloud Storage. New endpoints:
     - `POST /api/storage/uploads/request-url` — returns a presigned PUT URL the client uploads directly to
     - `GET /api/storage/objects/:objectPath` — serves stored objects
 
@@ -109,7 +109,7 @@ There are also queued tasks not yet started: cleaning up storage when specs/note
 | API | Express 5, `jose` for Firebase ID-token verification |
 | DB | Postgres + Drizzle ORM |
 | Codegen | OpenAPI YAML → Orval → Zod schemas + React Query hooks |
-| Storage | Replit Object Storage with presigned URLs |
+| Storage | Google Cloud Storage with signed URLs |
 | Build | esbuild |
 
 Tables that exist today: `users`, `properties`, `property_members`, `property_specs`, `property_notes`, `property_standards`, `work_logs`, `work_orders`, `recurring_tasks`, `messages`, `conversations`, `notifications`.

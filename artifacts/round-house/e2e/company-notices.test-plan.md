@@ -45,7 +45,7 @@ onboarding:
 | `E2E_COMPANY_ADMIN_EMAIL` / `E2E_COMPANY_ADMIN_PASSWORD` | **Admin** — Firebase user whose Roundhouse profile owns (or has a `manageTeam` / `isAdmin` team seat on) at least one `trade_pro` company outward account. | `admin` |
 | `E2E_COMPANY_MEMBER_EMAIL` / `E2E_COMPANY_MEMBER_PASSWORD` | **Member** — different Firebase user whose Roundhouse profile holds an accepted, non-removed team seat on the **same** company skin used by the admin, **without** `manageTeam` / `isAdmin` (so the composer button should not appear and `canDelete` is `false`). | `member` |
 
-Save credentials as Replit Secrets so the runner can read them. The
+Save credentials as CI secrets so the runner can read them. The
 "Context short name" column is the identifier the dual-context
 screenshot helper uses when it names the per-step PNG files (see
 "Screenshot capture" below).

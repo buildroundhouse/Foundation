@@ -194,7 +194,7 @@ test.describe("Danger zone: Delete this account", () => {
     const resolvedBaseURL =
       baseURL ||
       process.env.E2E_BASE_URL ||
-      (process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : "http://localhost:80");
+      "http://localhost:80";
     const { idToken, localId: clerkId } = await firebaseSignUp(email, PASSWORD);
     const seeded = await bypassOnboardingAndSeedAccounts(idToken, clerkId, email);
 

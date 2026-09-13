@@ -5,7 +5,7 @@
  * Run with:
  *   pnpm --filter @workspace/scripts exec tsx src/seed-stripe-products.ts
  *
- * Requires the Stripe integration to be connected to this Repl.
+ * Requires STRIPE_SECRET_KEY in the environment.
  */
 import Stripe from "stripe";
 
@@ -17,39 +17,14 @@ const BUNDLE_METADATA_VALUE = "expanded_capabilities";
 const PRICE_CENTS = 2900;
 const PRICE_CURRENCY = "usd";
 
-async function getStripeCredentials(): Promise<{ secretKey: string }> {
-  const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME;
-  const xReplitToken = process.env.REPL_IDENTITY
-    ? "repl " + process.env.REPL_IDENTITY
-    : process.env.WEB_REPL_RENEWAL
-      ? "depl " + process.env.WEB_REPL_RENEWAL
-      : null;
-  if (!hostname || !xReplitToken) {
-    throw new Error(
-      "Missing Replit env. Connect Stripe via the Integrations tab first.",
-    );
-  }
-  const resp = await fetch(
-    `https://${hostname}/api/v2/connection?include_secrets=true&connector_names=stripe`,
-    {
-      headers: { Accept: "application/json", X_REPLIT_TOKEN: xReplitToken },
-      signal: AbortSignal.timeout(10_000),
-    },
-  );
-  if (!resp.ok) {
-    throw new Error(`Stripe creds fetch failed: ${resp.status} ${resp.statusText}`);
-  }
-  const data = (await resp.json()) as {
-    items?: Array<{ settings?: { secret_key?: string } }>;
-  };
-  const key = data.items?.[0]?.settings?.secret_key;
-  if (!key) throw new Error("Stripe connection has no secret_key");
-  return { secretKey: key };
+function getStripeSecretKey(): string {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error("STRIPE_SECRET_KEY environment variable is required");
+  return key;
 }
 
 async function main(): Promise<void> {
-  const { secretKey } = await getStripeCredentials();
-  const stripe = new Stripe(secretKey);
+  const stripe = new Stripe(getStripeSecretKey());
 
   // Find existing bundle product by metadata tag (Stripe search supports
   // metadata equality queries).
@@ -93,7 +68,7 @@ async function main(): Promise<void> {
     console.log(`Created price ${created.id} ($${(PRICE_CENTS / 100).toFixed(2)}/mo)`);
   }
 
-  console.log("Done. Webhooks will sync this catalog into the local stripe schema.");
+  console.log("Done. Stripe catalog is ready.");
 }
 
 main().catch((err) => {

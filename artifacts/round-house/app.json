@@ -15,21 +15,16 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "app.replit.roundhouse"
+      "bundleIdentifier": "com.buildroundhouse.roundhouse"
     },
     "android": {
-      "package": "app.replit.roundhouse"
+      "package": "com.buildroundhouse.roundhouse"
     },
     "web": {
       "favicon": "./assets/images/icon.png"
     },
     "plugins": [
-      [
-        "expo-router",
-        {
-          "origin": "https://replit.com/"
-        }
-      ],
+      "expo-router",
       "expo-font",
       "expo-web-browser",
       "expo-image-picker",

@@ -21,7 +21,7 @@ pnpm run test:e2e
 - `EXPO_PUBLIC_GOOGLE_PLACES_API_KEY` — required by the Find on map banner
   spec only; the banner short-circuits to `null` when this key is missing.
 - `E2E_BASE_URL` (optional) — overrides the app URL. Defaults to
-  `https://$REPLIT_DEV_DOMAIN` and falls back to `http://localhost:80`.
+  `http://localhost:80`.
 
 ## Specs
 

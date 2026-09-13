@@ -31,11 +31,7 @@ import { Client } from "pg";
 
 const FIREBASE_API_KEY = process.env.EXPO_PUBLIC_FIREBASE_API_KEY;
 const DATABASE_URL = process.env.DATABASE_URL;
-const BASE_URL =
-  process.env.E2E_BASE_URL ||
-  (process.env.REPLIT_DEV_DOMAIN
-    ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-    : "http://localhost:80");
+const BASE_URL = process.env.E2E_BASE_URL || "http://localhost:80";
 
 function uid(n = 6): string {
   return Math.random().toString(36).slice(2, 2 + n);

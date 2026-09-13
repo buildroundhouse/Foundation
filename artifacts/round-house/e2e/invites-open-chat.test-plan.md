@@ -49,8 +49,8 @@ the recipient *Declines* the request.
 
 ## Reusable signed-in fixtures
 
-This plan uses TWO seeded Firebase test accounts (already provisioned
-on this Repl, see `.replit` `userenv.shared`):
+This plan uses TWO seeded Firebase test accounts configured through the
+test runner's environment:
 
 | Env var pair | Role | Context short name |
 | --- | --- | --- |

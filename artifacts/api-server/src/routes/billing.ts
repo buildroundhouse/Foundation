@@ -126,7 +126,7 @@ router.post(
     }
     const returnUrl =
       process.env["BILLING_RETURN_URL"] ??
-      `https://${process.env["REPLIT_DOMAINS"]?.split(",")[0] ?? "example.com"}/billing/return`;
+      `${(process.env["APP_BASE_URL"] ?? "http://localhost:3000").replace(/\/$/, "")}/billing/return`;
     try {
       const session = await createPaymentMethodSetupSession(userId, returnUrl);
       res.json({

@@ -348,7 +348,7 @@ export function PublicProfileModal({
               business workspace), not opened against an avatar. The
               user reaches a thread by entering an entity they share
               with this person and messaging from there. See the
-              "Connection paradigm — entity-only" section in replit.md
+              "Connection paradigm — entity-only" section in PROJECT.md
               and `docs/architecture/entity-model-proposal.md`.
               The empty spacer keeps the header layout balanced where
               the button used to sit. */}
@@ -978,7 +978,7 @@ export function PublicProfileModal({
               // do not connect to people. Contact details are shared
               // when both parties participate in the same entity, or
               // when the pro has marked the field public on their
-              // avatar. See replit.md "Connection paradigm — entity-only".
+              // avatar. See PROJECT.md "Connection paradigm — entity-only".
               <Text style={[styles.privacyNote, { color: colors.mutedForeground }]}>
                 Contact details are shared inside entities you both belong to — or when this pro has chosen to make them public.
               </Text>

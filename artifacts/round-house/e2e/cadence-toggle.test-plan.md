@@ -59,7 +59,7 @@ This plan reuses the seeded Firebase fixture from
 The Trade Pro counterparty is seeded directly in Postgres so the test
 doesn't depend on a second sign-in flow.
 
-- `DATABASE_URL` must be set in the Replit environment so the seed
+- `DATABASE_URL` must be set in the test environment so the seed
   shell command can connect to the same Postgres the API server uses.
 - The API server workflow (`artifacts/api-server: API Server`) and the
   Roundhouse Expo workflow (`artifacts/round-house: expo`) must both

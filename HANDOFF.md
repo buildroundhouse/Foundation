@@ -7,7 +7,7 @@
 - API: Express, mounted at `artifacts/api-server`.
 - DB: Postgres via Drizzle ORM, schema at `lib/db/src/schema/*`.
 - Auth: Firebase Auth. Token is a Firebase ID token sent as `Bearer` to the API; the column name `clerkId` is **legacy and now stores the Firebase UID** — there is no Clerk in the system.
-- File storage: Replit Object Storage (`@replit/object-storage`), private bucket gated by membership in a property that references the file path.
+- File storage: Google Cloud Storage (`@google-cloud/storage`), private bucket gated by membership in a property that references the file path.
 - Push: Expo Push (`expo-notifications`), with token round-tripped to the server.
 
 **Convention used below:** **Wired** = end-to-end working (UI ↔ API ↔ DB). **Backend-only** = API + DB exist and respond, but no UI surface consumes it. **UI-only** = UI exists but is not connected to API/DB. **Local-only** = data is stored only in component state and is lost on reload.
@@ -388,7 +388,7 @@ Every API route file mounts `requireAuth` middleware on every endpoint, except:
 14. **Recurring task generator runs as `setInterval` in-process** with only an in-process `isGenerating` boolean to avoid double-firing. **Not safe under multi-instance deploys.** Move to a real scheduler (DB-side advisory lock, cron, or queue) before scaling out.
 15. **Avatar privacy hole** — documented in `storage.ts:101–106`. Avatars stored in the private object bucket cannot be authorized through the membership-via-record check (because avatar URLs are user-controlled). There is no dedicated avatar-serving route. Today this means avatars effectively need to live in a public bucket or signed-URL flow; revisit before launch.
 16. **Real-device validation gap** — most testing happens in the web preview. Push notifications, image-picker permission flows, haptics, deep links, safe-area behavior all need a real-device pass.
-17. **Object storage migration** — current shell uses Replit Object Storage. If the rebuild changes hosts (e.g. Firebase Storage), every existing `attachments[].path`, `photoPath`, and `avatarUrl` is a migration concern.
+17. **Object storage migration** — storage now uses Google Cloud Application Default Credentials. If the rebuild changes buckets or providers, every existing `attachments[].path`, `photoPath`, and `avatarUrl` is a migration concern.
 
 ### Confirmed product decisions (do not re-litigate)
 - 5 tabs, identical across modes: Home / Clients / Properties / Invoices / Profile.
@@ -408,8 +408,8 @@ Every API route file mounts `requireAuth` middleware on every endpoint, except:
 | Work logs, work orders, comments, recurring tasks, ratings | Postgres | Yes (must be member) | Yes (role-gated, see §6) |
 | Notes, specs, standards, standard evidence | Postgres | Yes (must be member) | Owner/admin (or member for evidence) |
 | Messages, notifications | Postgres | Yes | Yes |
-| Object uploads + their attachments | Replit Object Storage + `object_uploads` audit row | Yes + path must be referenced by a record on a property you belong to | Authenticated; uploader recorded; only the uploader can attach a path to a property record |
-| Avatars | Replit Object Storage; URL stored on `users.avatarUrl` | **Effectively unprotected** for cross-user reads (see §8 #15) | Self only |
+| Object uploads + their attachments | Google Cloud Storage + `object_uploads` audit row | Yes + path must be referenced by a record on a property you belong to | Authenticated; uploader recorded; only the uploader can attach a path to a property record |
+| Avatars | Google Cloud Storage; URL stored on `users.avatarUrl` | **Effectively unprotected** for cross-user reads (see §8 #15) | Self only |
 | Invoices / Estimates / Receipts / Goals | Nothing — UI-only or absent | n/a | n/a |
 | Analytics range, search filters, expanded sections, etc. | Component state only — **local-only**, lost on reload | n/a | n/a |
 

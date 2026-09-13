@@ -1,14 +1,16 @@
 import type Stripe from "stripe";
 import { eq } from "drizzle-orm";
 import { db, subscriptionsTable } from "@workspace/db";
-import { getStripeSync, getUncachableStripeClient } from "./stripeClient";
+import {
+  getStripeWebhookSecret,
+  getUncachableStripeClient,
+} from "./stripeClient";
 import { applyWebhookEvent, type WebhookEvent } from "./billing";
 import { logger } from "./logger";
 
 /**
- * Verify the Stripe signature, hand the event to stripe-replit-sync so
- * the local `stripe` schema stays in sync, and then translate the
- * subset of events we care about into our internal capability state
+ * Verify the Stripe signature, then translate the subset of events we care
+ * about into our internal capability state
  * machine (see lib/billing.ts → applyWebhookEvent).
  *
  * Mapping:
@@ -29,18 +31,12 @@ export async function processStripeWebhook(
         "/api/stripe/webhook route BEFORE app.use(express.json()).",
     );
   }
-  const sync = await getStripeSync();
-  // sync.processWebhook verifies signature + persists to stripe schema.
-  await sync.processWebhook(payload, signature);
-
-  // Re-parse the (now-trusted) payload to dispatch our own side-effects.
-  let event: Stripe.Event;
-  try {
-    event = JSON.parse(payload.toString("utf8")) as Stripe.Event;
-  } catch (err) {
-    logger.warn({ err }, "Stripe webhook: payload not parseable as JSON");
-    return;
-  }
+  const stripe = await getUncachableStripeClient();
+  const event = stripe.webhooks.constructEvent(
+    payload,
+    signature,
+    getStripeWebhookSecret(),
+  );
   await dispatchInternalEvent(event);
 }
 

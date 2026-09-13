@@ -62,7 +62,7 @@
  * Usage:
  *   pnpm --filter @workspace/scripts run seed:nudge-fixtures
  *
- * Required env vars (already present on Replit):
+ * Required environment variables:
  *   - DATABASE_URL
  *   - EXPO_PUBLIC_FIREBASE_API_KEY
  */

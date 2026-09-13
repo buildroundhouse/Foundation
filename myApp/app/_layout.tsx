@@ -6,6 +6,7 @@ import 'react-native-reanimated';
 
 import { AppLoading } from '@/components/app-loading';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { ApiProvider } from '@/providers/api-provider';
 import { AuthProvider, useAuth } from '@/providers/auth-provider';
 import { ProfileProvider, useProfiles } from '@/providers/profile-provider';
 
@@ -15,9 +16,11 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <AuthProvider>
-        <ProfileProvider>
-          <RootNavigator />
-        </ProfileProvider>
+        <ApiProvider>
+          <ProfileProvider>
+            <RootNavigator />
+          </ProfileProvider>
+        </ApiProvider>
       </AuthProvider>
       <StatusBar style="auto" />
     </ThemeProvider>

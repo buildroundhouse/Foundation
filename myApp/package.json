@@ -5,13 +5,15 @@
   "scripts": {
     "start": "expo start",
     "start:device": "expo start --dev-client",
+    "start:phone": "expo start --go --tunnel",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "build:web": "expo export --platform web",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "doctor": "expo-doctor"
+    "doctor": "expo-doctor",
+    "verify": "npm run typecheck && npm run lint && npm run doctor"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",

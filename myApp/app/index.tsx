@@ -1,8 +1,9 @@
 import { Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
+  ActivityIndicator,
   Image,
   Modal,
   Platform,
@@ -14,6 +15,8 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { preserveCaptureImage, loadTimeline, saveTimeline, type TimelineEvent } from '@/lib/timeline-storage';
+import { useAuth } from '@/providers/auth-provider';
 import { useProfiles } from '@/providers/profile-provider';
 
 const C = {
@@ -22,18 +25,8 @@ const C = {
 };
 
 type SurfaceKey =
-  | 'entity' | 'rewards' | 'inbox' | 'daily' | 'tasks'
+  | 'entity' | 'rewards' | 'inbox' | 'daily' | 'tasks' | 'concierge'
   | 'receipts' | 'properties' | 'resolutions' | 'people' | 'money' | 'calendar';
-
-type TimelineEvent = {
-  id: string;
-  time: string;
-  title: string;
-  detail: string;
-  entity: string;
-  tone: string;
-  imageUri?: string;
-};
 
 const INITIAL_EVENTS: TimelineEvent[] = [
   { id: '1', time: '8:10 AM', title: 'Morning walkthrough', detail: 'Reviewed cabinet layout before installation.', entity: 'Spring Lake', tone: C.blue },
@@ -53,6 +46,7 @@ const SURFACES: Record<SurfaceKey, { title: string; subtitle: string; items: str
   people: { title: 'People', subtitle: 'People known through shared Roundhouse participation.', items: ['JD team', 'Spring Lake participants', 'Viva Day Spa participants'] },
   money: { title: 'Estimates / Invoices', subtitle: 'A simple working money desk for V1.', items: ['Draft estimate — Spring Lake', 'Invoice due — Viva Day Spa', 'Create new estimate'] },
   calendar: { title: 'Calendar', subtitle: 'Work availability without exposing private event details.', items: ['Today — 3 work blocks', 'Tomorrow — available after 1 PM', 'Friday — blocked'] },
+  concierge: { title: 'Concierge', subtitle: 'Tell Roundhouse what you need to do.', items: ['Create a note', 'Start a work record', 'Find the right place'] },
 };
 
 const RIGHT_TABS: { key: SurfaceKey; label: string; icon: React.ComponentProps<typeof Feather>['name'] }[] = [
@@ -72,8 +66,10 @@ const BOTTOM_ITEMS: { key: SurfaceKey; label: string; icon: React.ComponentProps
 export default function CommandCenterScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const { user } = useAuth();
   const { activeProfile: currentProfile } = useProfiles();
-  const [events, setEvents] = useState(INITIAL_EVENTS);
+  const [events, setEvents] = useState<TimelineEvent[]>([]);
+  const [eventsLoaded, setEventsLoaded] = useState(false);
   const [surface, setSurface] = useState<SurfaceKey | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -82,6 +78,28 @@ export default function CommandCenterScreen() {
   const [captureOpen, setCaptureOpen] = useState(false);
   const [captureNote, setCaptureNote] = useState('');
   const [captureImage, setCaptureImage] = useState<string>();
+  const [captureSaving, setCaptureSaving] = useState(false);
+  const captureHeld = useRef(false);
+
+  useEffect(() => {
+    let active = true;
+    setEventsLoaded(false);
+
+    loadTimeline(user?.uid ?? null, currentProfile.id)
+      .then((storedEvents) => {
+        if (!active) return;
+        const startingEvents = storedEvents
+          ?? (currentProfile.id === 'jd-design-studio' ? INITIAL_EVENTS : []);
+        setEvents(startingEvents);
+      })
+      .finally(() => {
+        if (active) setEventsLoaded(true);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [currentProfile.id, user?.uid]);
 
   const visibleEvents = useMemo(() => {
     const value = query.trim().toLowerCase();
@@ -109,21 +127,45 @@ export default function CommandCenterScreen() {
     }
   };
 
-  const saveCapture = () => {
+  const saveCapture = async () => {
     const now = new Date();
-    setEvents((current) => [{
-      id: `${now.getTime()}`,
-      time: now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
-      title: captureImage ? 'Photo captured' : 'Notation',
-      detail: captureNote.trim() || 'Fill in details later.',
-      entity: currentProfile.name,
-      tone: C.rust,
-      imageUri: captureImage,
-    }, ...current]);
-    setCaptureNote('');
-    setCaptureImage(undefined);
-    setCaptureOpen(false);
-    setTodayExpanded(true);
+    const id = `${now.getTime()}`;
+    setCaptureSaving(true);
+
+    try {
+      const imageUri = await preserveCaptureImage(captureImage, id);
+      const nextEvents: TimelineEvent[] = [{
+        id,
+        time: now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+        title: imageUri ? 'Photo captured' : 'Notation',
+        detail: captureNote.trim() || 'Fill in details later.',
+        entity: currentProfile.name,
+        tone: C.rust,
+        imageUri,
+      }, ...events];
+
+      setEvents(nextEvents);
+      await saveTimeline(user?.uid ?? null, currentProfile.id, nextEvents);
+      setCaptureNote('');
+      setCaptureImage(undefined);
+      setCaptureOpen(false);
+      setTodayExpanded(true);
+    } finally {
+      setCaptureSaving(false);
+    }
+  };
+
+  const handleCapturePress = () => {
+    if (captureHeld.current) {
+      captureHeld.current = false;
+      return;
+    }
+    void beginCapture();
+  };
+
+  const handleCaptureHold = () => {
+    captureHeld.current = true;
+    setSurface('concierge');
   };
 
   return (
@@ -181,7 +223,9 @@ export default function CommandCenterScreen() {
             </View>
             <View style={styles.timelineList}>
               <View style={styles.spine} />
-              {!todayExpanded ? (
+              {!eventsLoaded ? (
+                <View style={styles.timelineLoading}><ActivityIndicator color={C.rust} /></View>
+              ) : !todayExpanded ? (
                 <Pressable style={styles.daySummary} onPress={() => setTodayExpanded(true)}>
                   <Text style={styles.daySummaryCount}>{visibleEvents.length}</Text>
                   <View><Text style={styles.daySummaryTitle}>Today</Text><Text style={styles.daySummaryText}>Tap to expand your activity</Text></View>
@@ -224,7 +268,7 @@ export default function CommandCenterScreen() {
           {BOTTOM_ITEMS.slice(0, 2).map((item) => <BottomButton key={item.key} item={item} onPress={() => setSurface(item.key)} />)}
           <View style={styles.captureSpace} />
           {BOTTOM_ITEMS.slice(2).map((item) => <BottomButton key={item.key} item={item} onPress={() => setSurface(item.key)} />)}
-          <Pressable style={styles.captureButton} onPress={beginCapture} onLongPress={() => setCaptureOpen(true)} accessibilityLabel="Capture a photo">
+          <Pressable style={styles.captureButton} onPress={handleCapturePress} onLongPress={handleCaptureHold} accessibilityLabel="Capture a photo">
             <Feather name="camera" size={27} color="#FFFFFF" />
             <Text style={styles.captureLabel}>CAPTURE</Text>
           </Pressable>
@@ -240,8 +284,10 @@ export default function CommandCenterScreen() {
               {captureImage ? <Image source={{ uri: captureImage }} style={styles.capturePreview} /> : null}
               <TextInput value={captureNote} onChangeText={setCaptureNote} placeholder="What happened? You can fill this in later." placeholderTextColor="#8B9397" multiline style={styles.noteInput} />
               <View style={styles.sheetActions}>
-                <Pressable style={styles.secondaryButton} onPress={() => { setCaptureOpen(false); setCaptureImage(undefined); }}><Text style={styles.secondaryButtonText}>Cancel</Text></Pressable>
-                <Pressable style={styles.primaryButton} onPress={saveCapture}><Text style={styles.primaryButtonText}>Save to Timeline</Text></Pressable>
+                <Pressable disabled={captureSaving} style={styles.secondaryButton} onPress={() => { setCaptureOpen(false); setCaptureImage(undefined); setCaptureNote(''); }}><Text style={styles.secondaryButtonText}>Cancel</Text></Pressable>
+                <Pressable disabled={captureSaving} style={[styles.primaryButton, captureSaving && styles.buttonDisabled]} onPress={saveCapture}>
+                  {captureSaving ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.primaryButtonText}>Save to Timeline</Text>}
+                </Pressable>
               </View>
             </View>
           </View>
@@ -301,8 +347,10 @@ const styles = StyleSheet.create({
   timelineList: { minHeight: 500, position: 'relative', paddingBottom: 40 }, spine: { position: 'absolute', top: 0, bottom: 0, left: '50%', width: 2, marginLeft: -1, backgroundColor: C.line }, eventRow: { minHeight: 122, position: 'relative', justifyContent: 'center' }, timelineDot: { position: 'absolute', left: '50%', marginLeft: -7, width: 14, height: 14, borderRadius: 7, borderWidth: 3, backgroundColor: C.paper, zIndex: 2 }, connector: { position: 'absolute', top: '50%', height: 1, backgroundColor: C.line, width: 22 }, connectorLeft: { left: '50%', marginLeft: -22 }, connectorRight: { left: '50%' },
   eventCard: { width: '43%', borderRadius: 14, backgroundColor: C.card, borderTopWidth: 3, padding: 11, shadowColor: '#332A23', shadowOpacity: 0.08, shadowRadius: 7, shadowOffset: { width: 0, height: 3 }, elevation: 2 }, eventLeft: { alignSelf: 'flex-start' }, eventRight: { alignSelf: 'flex-end', marginRight: 27 }, eventTime: { color: C.muted, fontSize: 9, fontWeight: '700', letterSpacing: 0.4 }, eventTitle: { color: C.ink, fontSize: 14, lineHeight: 17, fontWeight: '800', marginTop: 4 }, eventEntity: { color: C.rust, fontSize: 10, fontWeight: '700', marginTop: 5 }, eventDetail: { color: C.muted, fontSize: 11, lineHeight: 15, marginTop: 8 }, eventImage: { width: '100%', height: 72, borderRadius: 8, marginBottom: 8, backgroundColor: '#E6DED4' },
   daySummary: { alignSelf: 'center', marginTop: 44, flexDirection: 'row', alignItems: 'center', gap: 12, padding: 15, borderRadius: 16, backgroundColor: C.card, borderWidth: 1, borderColor: '#D8CEC1', zIndex: 2 }, daySummaryCount: { width: 38, height: 38, borderRadius: 19, textAlign: 'center', lineHeight: 38, color: '#FFF', backgroundColor: C.rust, fontWeight: '900' }, daySummaryTitle: { color: C.ink, fontSize: 15, fontWeight: '800' }, daySummaryText: { color: C.muted, fontSize: 11, marginTop: 2 }, noMatches: { alignSelf: 'center', marginTop: 70, backgroundColor: C.card, padding: 18, borderRadius: 14, zIndex: 2 }, noMatchesTitle: { color: C.ink, fontSize: 14, fontWeight: '800' }, noMatchesText: { color: C.muted, fontSize: 11, marginTop: 4 },
+  timelineLoading: { alignItems: 'center', justifyContent: 'center', paddingTop: 70, zIndex: 2 },
   rightTabs: { position: 'absolute', right: 0, top: 74, gap: 9 }, rightTab: { width: 40, height: 67, backgroundColor: 'rgba(49,94,120,0.86)', borderTopLeftRadius: 13, borderBottomLeftRadius: 13, alignItems: 'center', justifyContent: 'center', gap: 5, shadowColor: '#000', shadowOpacity: 0.11, shadowRadius: 5, shadowOffset: { width: -2, height: 2 } }, rightTabText: { color: '#FFF', fontSize: 8, fontWeight: '800', transform: [{ rotate: '90deg' }], width: 51, textAlign: 'center' },
   bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0, minHeight: 78, paddingTop: 9, paddingHorizontal: 6, backgroundColor: 'rgba(255,253,250,0.98)', borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#D2C8BC', flexDirection: 'row', alignItems: 'flex-start' }, bottomItem: { flex: 1, minWidth: 0, alignItems: 'center', gap: 4, paddingTop: 5 }, bottomLabel: { color: C.ink, fontSize: 8, fontWeight: '700', maxWidth: 62 }, captureSpace: { width: 76 }, captureButton: { position: 'absolute', left: '50%', marginLeft: -36, top: -23, width: 72, height: 72, borderRadius: 36, backgroundColor: C.rust, borderWidth: 5, borderColor: C.paper, alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.22, shadowRadius: 10, shadowOffset: { width: 0, height: 5 }, elevation: 8 }, captureLabel: { color: '#FFF', fontSize: 8, fontWeight: '900', letterSpacing: 0.7, marginTop: 2 },
   modalBackdrop: { flex: 1, backgroundColor: 'rgba(24,29,31,0.52)', justifyContent: 'flex-end' }, surfacePanel: { maxHeight: '88%', minHeight: '62%', backgroundColor: C.paper, borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 18 }, sheet: { backgroundColor: C.paper, borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 18 }, sheetHandle: { width: 42, height: 4, borderRadius: 2, backgroundColor: '#C6BBB0', alignSelf: 'center', marginBottom: 18 }, surfaceHeader: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 }, sheetTitle: { color: C.ink, fontSize: 25, fontWeight: '900', letterSpacing: -0.4 }, sheetSubtitle: { color: C.muted, fontSize: 12, lineHeight: 17, marginTop: 5 }, closeButton: { width: 38, height: 38, borderRadius: 19, backgroundColor: C.card, alignItems: 'center', justifyContent: 'center' }, surfaceList: { marginTop: 22 }, surfaceRow: { minHeight: 58, backgroundColor: C.card, borderRadius: 13, marginBottom: 9, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 11 }, rowNumber: { width: 28, height: 28, borderRadius: 14, backgroundColor: '#E8DED1', alignItems: 'center', justifyContent: 'center' }, rowNumberText: { color: C.rust, fontSize: 11, fontWeight: '900' }, surfaceRowText: { flex: 1, color: C.ink, fontSize: 14, fontWeight: '700' },
   capturePreview: { width: '100%', height: 190, borderRadius: 15, marginTop: 16, backgroundColor: '#E7DFD4' }, noteInput: { minHeight: 104, marginTop: 16, borderRadius: 14, borderWidth: 1, borderColor: '#D5C9BB', backgroundColor: C.card, color: C.ink, padding: 13, textAlignVertical: 'top' }, sheetActions: { flexDirection: 'row', gap: 10, marginTop: 14 }, secondaryButton: { flex: 1, minHeight: 48, borderRadius: 13, borderWidth: 1, borderColor: '#CBBFB2', alignItems: 'center', justifyContent: 'center' }, secondaryButtonText: { color: C.ink, fontWeight: '800' }, primaryButton: { flex: 2, minHeight: 48, borderRadius: 13, backgroundColor: C.rust, alignItems: 'center', justifyContent: 'center' }, primaryButtonText: { color: '#FFF', fontWeight: '900' },
+  buttonDisabled: { opacity: 0.68 },
 });

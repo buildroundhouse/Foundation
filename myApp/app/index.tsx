@@ -15,7 +15,13 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { preserveCaptureImage, loadTimeline, saveTimeline, type TimelineEvent } from '@/lib/timeline-storage';
+import {
+  loadTimeline,
+  preserveRecordImage,
+  saveRecordWithLinks,
+  type RoundhouseRecord,
+  type TimelineEvent,
+} from '@/lib/record-store';
 import { useAuth } from '@/providers/auth-provider';
 import { useProfiles } from '@/providers/profile-provider';
 
@@ -29,9 +35,9 @@ type SurfaceKey =
   | 'receipts' | 'properties' | 'resolutions' | 'people' | 'money' | 'calendar';
 
 const INITIAL_EVENTS: TimelineEvent[] = [
-  { id: '1', time: '8:10 AM', title: 'Morning walkthrough', detail: 'Reviewed cabinet layout before installation.', entity: 'Spring Lake', tone: C.blue },
-  { id: '2', time: '10:45 AM', title: 'Material receipt', detail: 'Walnut veneer and finish supplies recorded.', entity: 'JD', tone: C.gold },
-  { id: '3', time: '1:30 PM', title: 'Client update', detail: 'Shared progress and next-step notes.', entity: 'Viva Day Spa', tone: C.green },
+  { id: '1', recordType: 'work-log', createdAt: '2026-09-13T08:10:00.000Z', createdBy: null, time: '8:10 AM', title: 'Morning walkthrough', detail: 'Reviewed cabinet layout before installation.', entity: 'Spring Lake', tone: C.blue },
+  { id: '2', recordType: 'receipt', createdAt: '2026-09-13T10:45:00.000Z', createdBy: null, time: '10:45 AM', title: 'Material receipt', detail: 'Walnut veneer and finish supplies recorded.', entity: 'JD', tone: C.gold },
+  { id: '3', recordType: 'message', createdAt: '2026-09-13T13:30:00.000Z', createdBy: null, time: '1:30 PM', title: 'Client update', detail: 'Shared progress and next-step notes.', entity: 'Viva Day Spa', tone: C.green },
 ];
 
 const SURFACES: Record<SurfaceKey, { title: string; subtitle: string; items: string[] }> = {
@@ -88,8 +94,9 @@ export default function CommandCenterScreen() {
     loadTimeline(user?.uid ?? null, currentProfile.id)
       .then((storedEvents) => {
         if (!active) return;
-        const startingEvents = storedEvents
-          ?? (currentProfile.id === 'jd-design-studio' ? INITIAL_EVENTS : []);
+        const startingEvents = storedEvents.length
+          ? storedEvents
+          : (currentProfile.id === 'jd-design-studio' ? INITIAL_EVENTS : []);
         setEvents(startingEvents);
       })
       .finally(() => {
@@ -133,19 +140,29 @@ export default function CommandCenterScreen() {
     setCaptureSaving(true);
 
     try {
-      const imageUri = await preserveCaptureImage(captureImage, id);
-      const nextEvents: TimelineEvent[] = [{
+      const imageUri = await preserveRecordImage(captureImage, id);
+      const record: RoundhouseRecord = {
         id,
+        recordType: imageUri ? 'capture' : 'notation',
+        createdAt: now.toISOString(),
+        createdBy: user?.uid ?? null,
         time: now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
         title: imageUri ? 'Photo captured' : 'Notation',
         detail: captureNote.trim() || 'Fill in details later.',
-        entity: currentProfile.name,
         tone: C.rust,
         imageUri,
-      }, ...events];
+      };
+      const timelineEvent: TimelineEvent = { ...record, entity: currentProfile.name };
+      const nextEvents = [timelineEvent, ...events];
 
       setEvents(nextEvents);
-      await saveTimeline(user?.uid ?? null, currentProfile.id, nextEvents);
+      await saveRecordWithLinks(user?.uid ?? null, record, [{
+        id: `${record.id}:profile:${currentProfile.id}`,
+        recordId: record.id,
+        destinationType: 'profile',
+        destinationId: currentProfile.id,
+        destinationName: currentProfile.name,
+      }]);
       setCaptureNote('');
       setCaptureImage(undefined);
       setCaptureOpen(false);

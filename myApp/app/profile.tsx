@@ -108,14 +108,79 @@ export default function ProfileScreen() {
             <Text style={styles.profileName}>{selected.name}</Text>
             <Text style={styles.location}>{selected.location}</Text>
 
-            <Pressable style={styles.viewProfileButton} onPress={() => setDetailOpen('Public profile preview')}>
-              <Feather name="eye" size={17} color="#FFFFFF" />
-              <Text style={styles.viewProfileText}>View profile</Text>
-            </Pressable>
+            <View style={styles.primaryActions}>
+              <Pressable style={styles.viewProfileButton} onPress={() => setDetailOpen('Public profile preview')}>
+                <Feather name="eye" size={17} color="#FFFFFF" />
+                <Text style={styles.viewProfileText}>View profile</Text>
+              </Pressable>
+              <Pressable style={styles.shareButton} onPress={() => setDetailOpen('Share Roundhouse')}>
+                <Feather name="send" size={17} color={C.rust} />
+                <View>
+                  <Text style={styles.shareButtonText}>Share Roundhouse</Text>
+                  <Text style={styles.sharePoints}>Earn points</Text>
+                </View>
+              </Pressable>
+            </View>
           </View>
+
+          <View style={styles.section}>
+            <ActionRow
+              label="Invite / Share Roundhouse"
+              detail="Invitations, requests and approvals"
+              icon="user-plus"
+              onPress={() => setDetailOpen('Invitation Center')}
+            />
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Find</Text>
+            <View style={styles.sectionCard}>
+              <ActionRow
+                label="Find a Trade Professional"
+                icon="search"
+                onPress={() => setDetailOpen('Find a Trade Professional')}
+                nested
+              />
+              <ActionRow
+                label="Residential Home Search"
+                icon="home"
+                onPress={() => setDetailOpen('Residential Home Search')}
+                nested
+                bordered
+              />
+              <ActionRow
+                label="Commercial Facility Search"
+                icon="map"
+                onPress={() => setDetailOpen('Commercial Facility Search')}
+                nested
+                bordered
+              />
+            </View>
+          </View>
+
+          <Pressable style={[styles.discoverCard, { borderColor: selected.accentColor }]} onPress={() => setDetailOpen('Discover')}>
+            <View style={[styles.discoverIcon, { backgroundColor: selected.heroColor }]}>
+              <Feather name="compass" size={24} color="#FFFFFF" />
+            </View>
+            <View style={styles.discoverCopy}>
+              <Text style={styles.discoverTitle}>Discover</Text>
+              <Text style={styles.discoverText}>Find pros and success stories in your area.</Text>
+              <Text style={styles.discoverMeta}>Q&A · Message Board · Coming Soon</Text>
+            </View>
+            <Feather name="chevron-right" size={20} color={C.muted} />
+          </Pressable>
 
           <ProfileSection title="Profile information" items={profileDetails} onOpen={setDetailOpen} />
           <ProfileSection title="Manage" items={management} onOpen={setDetailOpen} />
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Control</Text>
+            <View style={styles.sectionCard}>
+              <ActionRow label="Authority & Permissions" icon="shield" onPress={() => setDetailOpen('Authority & Permissions')} nested />
+              <ActionRow label="Subscription & Account" icon="credit-card" onPress={() => setDetailOpen('Subscription & Account')} nested bordered />
+              <ActionRow label="Other Settings" icon="sliders" onPress={() => setDetailOpen('Other Settings')} nested bordered />
+            </View>
+          </View>
 
           <View style={styles.bottomMarker}>
             <View style={styles.bottomLine} />
@@ -162,6 +227,35 @@ function ProfileSection({ title, items, onOpen }: { title: string; items: Detail
         ))}
       </View>
     </View>
+  );
+}
+
+function ActionRow({
+  label,
+  detail,
+  icon,
+  onPress,
+  nested = false,
+  bordered = false,
+}: {
+  label: string;
+  detail?: string;
+  icon: React.ComponentProps<typeof Feather>['name'];
+  onPress: () => void;
+  nested?: boolean;
+  bordered?: boolean;
+}) {
+  return (
+    <Pressable
+      style={[nested ? styles.sectionRow : styles.standaloneRow, bordered && styles.sectionRowBorder]}
+      onPress={onPress}>
+      <View style={styles.rowIcon}><Feather name={icon} size={17} color={C.rust} /></View>
+      <View style={styles.actionCopy}>
+        <Text style={styles.rowLabel}>{label}</Text>
+        {detail ? <Text style={styles.rowDetail}>{detail}</Text> : null}
+      </View>
+      <Feather name="chevron-right" size={18} color={C.muted} />
+    </Pressable>
   );
 }
 
@@ -265,15 +359,28 @@ const styles = StyleSheet.create({
   logoText: { color: '#FFFFFF', fontSize: 20, fontWeight: '900', letterSpacing: 0.5 },
   profileName: { color: C.ink, fontSize: 27, fontWeight: '900', letterSpacing: -0.7, marginTop: 10, textAlign: 'center' },
   location: { color: C.muted, fontSize: 12, marginTop: 4 },
-  viewProfileButton: { minHeight: 48, paddingHorizontal: 24, borderRadius: 24, backgroundColor: C.rust, flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 16 },
+  primaryActions: { width: '100%', flexDirection: 'row', gap: 9, marginTop: 16 },
+  viewProfileButton: { flex: 1, minHeight: 52, borderRadius: 14, backgroundColor: C.rust, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
   viewProfileText: { color: '#FFFFFF', fontSize: 14, fontWeight: '900' },
+  shareButton: { flex: 1.35, minHeight: 52, borderRadius: 14, borderWidth: 1, borderColor: C.border, backgroundColor: C.card, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
+  shareButtonText: { color: C.ink, fontSize: 12, fontWeight: '900' },
+  sharePoints: { color: C.rust, fontSize: 9, fontWeight: '800', marginTop: 1 },
   section: { paddingHorizontal: 16, marginTop: 24 },
   sectionTitle: { color: C.muted, fontSize: 11, fontWeight: '900', letterSpacing: 1.2, marginBottom: 9 },
   sectionCard: { borderRadius: 16, backgroundColor: C.card, borderWidth: 1, borderColor: C.border, overflow: 'hidden' },
   sectionRow: { minHeight: 62, paddingHorizontal: 13, flexDirection: 'row', alignItems: 'center', gap: 11 },
+  standaloneRow: { minHeight: 68, borderRadius: 16, borderWidth: 1, borderColor: C.border, backgroundColor: C.card, paddingHorizontal: 13, flexDirection: 'row', alignItems: 'center', gap: 11 },
   sectionRowBorder: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: C.border },
   rowIcon: { width: 32, height: 32, borderRadius: 16, backgroundColor: '#F0E4D8', alignItems: 'center', justifyContent: 'center' },
   rowLabel: { flex: 1, color: C.ink, fontSize: 15, fontWeight: '800' },
+  actionCopy: { flex: 1 },
+  rowDetail: { color: C.muted, fontSize: 11, marginTop: 3 },
+  discoverCard: { marginHorizontal: 16, marginTop: 24, minHeight: 118, borderRadius: 18, borderWidth: 1.5, backgroundColor: C.card, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 13 },
+  discoverIcon: { width: 50, height: 50, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
+  discoverCopy: { flex: 1 },
+  discoverTitle: { color: C.ink, fontSize: 20, fontWeight: '900' },
+  discoverText: { color: C.muted, fontSize: 12, lineHeight: 17, marginTop: 3 },
+  discoverMeta: { color: C.rust, fontSize: 10, fontWeight: '800', marginTop: 7 },
   bottomMarker: { flexDirection: 'row', alignItems: 'center', gap: 10, margin: 28 },
   bottomLine: { flex: 1, height: StyleSheet.hairlineWidth, backgroundColor: C.border },
   bottomText: { color: C.muted, fontSize: 10, fontWeight: '700' },

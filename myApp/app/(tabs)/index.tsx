@@ -1,5 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import {
   Image,
@@ -13,6 +14,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { profileById } from '@/lib/profiles';
 
 const C = {
   ink: '#202629', muted: '#667076', line: '#C8B9A7', paper: '#F6F1E9',
@@ -20,7 +22,7 @@ const C = {
 };
 
 type SurfaceKey =
-  | 'avatar' | 'entity' | 'rewards' | 'inbox' | 'daily' | 'tasks'
+  | 'entity' | 'rewards' | 'inbox' | 'daily' | 'tasks'
   | 'receipts' | 'properties' | 'resolutions' | 'people' | 'money' | 'calendar';
 
 type TimelineEvent = {
@@ -40,7 +42,6 @@ const INITIAL_EVENTS: TimelineEvent[] = [
 ];
 
 const SURFACES: Record<SurfaceKey, { title: string; subtitle: string; items: string[] }> = {
-  avatar: { title: 'Avatar & Role', subtitle: 'Your identity stays personal. Work happens through an Entity role.', items: ['Trade Professional — active', 'Homeowner', 'Profile and settings'] },
   entity: { title: 'JD', subtitle: 'Business Entity — what is happening here.', items: ['Business Timeline', 'Team', 'Company records'] },
   rewards: { title: 'Rewards', subtitle: 'Your Roundhouse progress.', items: ['Builder badge', '1,240 points', 'Points history'] },
   inbox: { title: 'Inbox', subtitle: 'Messages and notifications in one place.', items: ['Viva Day Spa — photo received', 'Spring Lake — task updated', 'JD — estimate ready'] },
@@ -70,6 +71,8 @@ const BOTTOM_ITEMS: { key: SurfaceKey; label: string; icon: React.ComponentProps
 
 export default function CommandCenterScreen() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
+  const { profileId } = useLocalSearchParams<{ profileId?: string }>();
   const [events, setEvents] = useState(INITIAL_EVENTS);
   const [surface, setSurface] = useState<SurfaceKey | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -79,6 +82,7 @@ export default function CommandCenterScreen() {
   const [captureOpen, setCaptureOpen] = useState(false);
   const [captureNote, setCaptureNote] = useState('');
   const [captureImage, setCaptureImage] = useState<string>();
+  const currentProfile = profileById(profileId);
 
   const visibleEvents = useMemo(() => {
     const value = query.trim().toLowerCase();
@@ -113,7 +117,7 @@ export default function CommandCenterScreen() {
       time: now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
       title: captureImage ? 'Photo captured' : 'Notation',
       detail: captureNote.trim() || 'Fill in details later.',
-      entity: 'JD',
+      entity: currentProfile.name,
       tone: C.rust,
       imageUri: captureImage,
     }, ...current]);
@@ -127,14 +131,16 @@ export default function CommandCenterScreen() {
     <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
       <View style={styles.screen}>
         <View style={styles.topBar}>
-          <Pressable style={styles.avatar} onPress={() => setSurface('avatar')} accessibilityLabel="Open Avatar and Role menu">
-            <Text style={styles.avatarText}>D</Text>
+          <Pressable
+            style={styles.profilePhoto}
+            onPress={() => router.push({ pathname: '/profile', params: { profileId: currentProfile.id } })}
+            accessibilityLabel={`Open ${currentProfile.name} profile`}>
+            <Text style={styles.profilePhotoText}>D</Text>
           </Pressable>
-          <Pressable style={styles.entityControl} onPress={() => setSurface('entity')} accessibilityLabel="Open JD Business Entity">
-            <View style={styles.entityLogo}><Text style={styles.entityLogoText}>JD</Text></View>
+          <Pressable style={styles.entityControl} onPress={() => setSurface('entity')} accessibilityLabel={`Open ${currentProfile.name} Command Center`}>
+            <View style={styles.entityLogo}><Text style={styles.entityLogoText}>{currentProfile.initials}</Text></View>
             <View style={styles.entityCopy}>
-              <Text style={styles.entityName}>JD</Text>
-              <Text style={styles.entityType}>Business Entity</Text>
+              <Text style={styles.entityName}>{currentProfile.name}</Text>
             </View>
             <Feather name="chevron-right" size={15} color={C.muted} />
           </Pressable>
@@ -172,7 +178,7 @@ export default function CommandCenterScreen() {
                 <Text style={styles.today}>Today</Text>
                 <Feather name={todayExpanded ? 'chevron-up' : 'chevron-down'} size={18} color={C.ink} />
               </Pressable>
-              <Text style={styles.timelineHint}>What you are doing across your Entities</Text>
+              <Text style={styles.timelineHint}>Your activity today</Text>
             </View>
             <View style={styles.timelineList}>
               <View style={styles.spine} />
@@ -225,13 +231,13 @@ export default function CommandCenterScreen() {
           </Pressable>
         </View>
 
-        <SurfaceModal surface={surface} onClose={() => setSurface(null)} />
+        <SurfaceModal surface={surface} currentProfileName={currentProfile.name} onClose={() => setSurface(null)} />
         <Modal visible={captureOpen} transparent animationType="slide" onRequestClose={() => setCaptureOpen(false)}>
           <View style={styles.modalBackdrop}>
             <View style={[styles.sheet, { paddingBottom: Math.max(insets.bottom, 18) }]}>
               <View style={styles.sheetHandle} />
               <Text style={styles.sheetTitle}>{captureImage ? 'Finish the record' : 'Notation only'}</Text>
-              <Text style={styles.sheetSubtitle}>One record can appear in your Avatar and Entity Timelines without being duplicated.</Text>
+              <Text style={styles.sheetSubtitle}>This record will be saved to {currentProfile.name}.</Text>
               {captureImage ? <Image source={{ uri: captureImage }} style={styles.capturePreview} /> : null}
               <TextInput value={captureNote} onChangeText={setCaptureNote} placeholder="What happened? You can fill this in later." placeholderTextColor="#8B9397" multiline style={styles.noteInput} />
               <View style={styles.sheetActions}>
@@ -255,10 +261,12 @@ function BottomButton({ item, onPress }: { item: (typeof BOTTOM_ITEMS)[number]; 
   );
 }
 
-function SurfaceModal({ surface, onClose }: { surface: SurfaceKey | null; onClose: () => void }) {
+function SurfaceModal({ surface, currentProfileName, onClose }: { surface: SurfaceKey | null; currentProfileName: string; onClose: () => void }) {
   const insets = useSafeAreaInsets();
   if (!surface) return null;
-  const content = SURFACES[surface];
+  const content = surface === 'entity'
+    ? { ...SURFACES.entity, title: currentProfileName }
+    : SURFACES[surface];
   return (
     <Modal visible transparent animationType="fade" onRequestClose={onClose}>
       <View style={styles.modalBackdrop}>
@@ -286,7 +294,7 @@ function SurfaceModal({ surface, onClose }: { surface: SurfaceKey | null; onClos
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: C.paper }, screen: { flex: 1, backgroundColor: C.paper },
   topBar: { minHeight: 58, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 9, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#D9D0C4', backgroundColor: 'rgba(255,253,250,0.96)' },
-  avatar: { width: 38, height: 38, borderRadius: 19, backgroundColor: C.rust, alignItems: 'center', justifyContent: 'center' }, avatarText: { color: '#FFF', fontSize: 17, fontWeight: '800' },
+  profilePhoto: { width: 38, height: 38, borderRadius: 19, backgroundColor: C.rust, alignItems: 'center', justifyContent: 'center' }, profilePhotoText: { color: '#FFF', fontSize: 17, fontWeight: '800' },
   entityControl: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 8 }, entityLogo: { width: 33, height: 33, borderRadius: 8, backgroundColor: C.ink, alignItems: 'center', justifyContent: 'center' }, entityLogoText: { color: '#FFF', fontSize: 11, fontWeight: '900', letterSpacing: 0.6 }, entityCopy: { flex: 1, minWidth: 0 }, entityName: { color: C.ink, fontSize: 15, fontWeight: '800' }, entityType: { color: C.muted, fontSize: 10, marginTop: 1 },
   points: { alignItems: 'center', minWidth: 43 }, pointsText: { color: C.ink, fontSize: 10, fontWeight: '800', marginTop: 1 }, topIcon: { width: 34, height: 38, alignItems: 'center', justifyContent: 'center' }, unreadDot: { position: 'absolute', top: 5, right: 3, width: 7, height: 7, borderRadius: 4, backgroundColor: C.rust },
   timelineArea: { flex: 1 }, timelineContent: { paddingTop: 62, paddingHorizontal: 12 }, timelineHeading: { alignItems: 'center', marginBottom: 12 }, eyebrow: { color: C.rust, fontSize: 10, fontWeight: '900', letterSpacing: 1.8 }, todayButton: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 4 }, today: { color: C.ink, fontSize: 28, fontWeight: '900', letterSpacing: -0.8 }, timelineHint: { color: C.muted, fontSize: 11, marginTop: 2 },

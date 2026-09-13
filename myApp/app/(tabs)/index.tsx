@@ -71,7 +71,7 @@ const BOTTOM_ITEMS: { key: SurfaceKey; label: string; icon: React.ComponentProps
 export default function CommandCenterScreen() {
   const insets = useSafeAreaInsets();
   const [events, setEvents] = useState(INITIAL_EVENTS);
-  const [surface, setSurface] = useState<SurfaceKey | null>('daily');
+  const [surface, setSurface] = useState<SurfaceKey | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [todayExpanded, setTodayExpanded] = useState(true);

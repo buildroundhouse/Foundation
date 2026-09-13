@@ -1,50 +1,40 @@
-# Welcome to your Expo app 👋
+# Roundhouse V1
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Roundhouse is a mobile-first React Native application for iPhone and Android. The Expo web target is retained as a secondary capability, not as the primary product or testing environment.
 
-## Get started
+## Local setup
 
-1. Install dependencies
+1. Install the single supported dependency set:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. Copy `.env.example` to `.env.local` and enter the existing Roundhouse Firebase public configuration and API address.
+
+3. Start a native development build:
 
    ```bash
-   npx expo start
+   npm run start:device
    ```
 
-In the output, you'll find options to open the app in a
+## Verification
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+Run these before opening a review:
 
 ```bash
-npm run reset-project
+npm run typecheck
+npm run lint
+npm run doctor
+npx expo export --platform ios
+npx expo export --platform android
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Architecture boundary
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- `app/index.tsx` is the mobile Command Center root.
+- `app/profile.tsx` owns profile switching.
+- `providers/auth-provider.tsx` owns the signed-in Firebase session.
+- `providers/profile-provider.tsx` owns persisted active-profile selection.
+- New shared records must be scoped to a property or business.
+- Do not restore the discarded starter tabs, demo screens, or generic modal route.
